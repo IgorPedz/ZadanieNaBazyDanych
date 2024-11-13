@@ -22,36 +22,50 @@ const Form = () => {
   };
 
   // Handle form submission (Login or Register)
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Clear previous error when starting new validation
     setError('');
     setShowModal(false);
-  
+
     // Basic validation
     if (!email || !password || (!isLogin && (!confirmPassword || password !== confirmPassword))) {
       setError('Proszę wypełnić wszystkie pola poprawnie!');
       setShowModal(true);
       return;
     }
-  
-    // Add email format validation
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      setError('Podaj poprawny adres email!');
-      setShowModal(true);
-      return;
-    }
 
-    // Logging and submitting the form (you could replace this with an API call)
-    console.log('Formularz wysłany');
- 
-  };
-  
+    // Prepare data to send to backend
+    const data = {
+      email,
+      password,
+      ...(isLogin ? {} : { username, confirmPassword })
+    };
+
+    try {
+      const response = await fetch('http://localhost/auth.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      
+      if (result.error) {
+        setError(result.message);
+        setShowModal(true);
+      } else {
+        // handle success (e.g. store user data or redirect)
+        console.log(result.message);
+      }
+    } catch (err) {
+      setError('Wystąpił błąd po stronie serwera.');
+      setShowModal(true);
+    }
+};
+
 
   // Handle reset password form submission
-  const handleResetSubmit = (e) => {
+  const handleResetSubmit = async (e) => {
     e.preventDefault();
 
     if (!resetEmail) {
@@ -67,9 +81,24 @@ const Form = () => {
       return;
     }
 
-    // Simulate successful reset request (In a real app, you'd call an API here)
-    setResetSuccess(true);
-    setShowResetModal(false);
+    try {
+      const response = await fetch('http://localhost/reset-password.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: resetEmail })
+      });
+      const result = await response.json();
+
+      if (result.error) {
+        setError(result.error);
+        setShowModal(true);
+      } else {
+        setResetSuccess(true);
+      }
+    } catch (err) {
+      setError('Wystąpił błąd po stronie serwera.');
+      setShowModal(true);
+    }
   };
 
   // Close any modal
@@ -77,20 +106,8 @@ const Form = () => {
     setShowModal(false);
   };
 
-  // Show the password reset modal
-  const openResetModal = () => {
-    setError('');
-    setShowModal(false);
-    setShowResetModal(true);
-  };
-
-  // Close reset modal
-  const closeResetModal = () => {
-    setShowResetModal(false);
-  };
-
   return (
-  <div className="form-container">
+    <div className="form-container">
       {/* Toggle buttons between Login and Register */}
       <div className="form-buttons">
         <button
@@ -110,7 +127,6 @@ const Form = () => {
       {/* Login / Register form content */}
       <div className={`form-content ${isLogin ? 'form-show-login' : 'form-show-register'}`}>
         <h2>{isLogin ? 'Logowanie' : 'Rejestracja'}</h2>
-
         <form onSubmit={handleSubmit}>
           {/* Login form fields */}
           {isLogin ? (
@@ -136,8 +152,8 @@ const Form = () => {
                 />
               </div>
               {/* Forgot Password link */}
-              <div className='forgot-div'>
-                <button type="button" className="forgot-password" onClick={openResetModal}>
+              <div className="forgot-div">
+                <button type="button" className="forgot-password" onClick={() => setShowResetModal(true)}>
                   Zapomniałeś hasła?
                 </button>
               </div>
@@ -152,14 +168,6 @@ const Form = () => {
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="surname">Nazwisko</label>
-                <input
-                  type="text"
-                  id="surname"
                   required
                 />
               </div>
@@ -195,7 +203,6 @@ const Form = () => {
               </div>
             </>
           )}
-
           <button type="submit" className="form-submit" disabled={!email || !password || (!isLogin && !confirmPassword)}>
             {isLogin ? 'Zaloguj się' : 'Zarejestruj się'}
           </button>
@@ -204,35 +211,6 @@ const Form = () => {
 
       {/* Modal wyświetlający błąd */}
       {showModal && <Modal message={error} onClose={closeModal} />}
-
-      {/* Reset Password Modal */}
-      {showResetModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Resetowanie hasła</h3>
-            <p>Podaj adres e-mail, na który wyślemy link do resetowania hasła:</p>
-            <form onSubmit={handleResetSubmit}>
-              <div className="form-group">
-                <label htmlFor="resetEmail">E-mail</label>
-                <input
-                  type="email"
-                  id="resetEmail"
-                  value={resetEmail}
-                  onChange={(e) => setResetEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" className="form-forgot">
-                Wyślij link
-              </button>
-              <button type="button" className="form-forgot" onClick={closeResetModal}>
-                Anuluj
-              </button>
-            </form>
-            {resetSuccess && <p className="success-message">Link do resetowania hasła został wysłany na Twój e-mail!</p>}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
