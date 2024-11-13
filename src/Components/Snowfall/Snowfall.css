@@ -1,0 +1,34 @@
+/* Tło z opadającym śniegiem */
+.snowfall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Tło nie wpływa na interakcje z użytkownikiem */
+  z-index: -1; /* Tło za innymi elementami */
+}
+
+/* Płatki śniegu */
+.snowflake {
+  position: absolute;
+  top: -10px; /* Początkowa pozycja płatków */
+  background-color: #fff;
+  border-radius: 10%;
+  opacity: 0.8;
+  pointer-events: none;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-name: fall; /* Tylko animacja opadania */ 
+  box-shadow: 8px 8px 100px 20px rgba(110, 117, 96, 1);
+}
+
+/* Animacja opadania śniegu */
+@keyframes fall {
+  0% {
+    transform: translateY(var(--random-x)) translateX(0); /* Początkowa pozycja płatków */
+  }
+  100% {
+    transform: translateY(var(--random-x)) translateX(100vw); /* Płatki opadają na całą wysokość strony */
+  }
+}

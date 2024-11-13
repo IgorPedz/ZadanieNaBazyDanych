@@ -1,0 +1,76 @@
+/* Ogólny styl kontenera cytatu */
+.quote-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* Styl kontenera obrazka */
+  .image-container {
+    position: relative; /* Umożliwia kontrolowanie pozycji obrazka */
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;  /* Odstęp między obrazkiem a cytatem */
+  }
+  
+  /* Styl obrazka */
+  .quote-image {
+    width: 100%;
+    height: auto; /* Obrazek dopasuje się do szerokości kontenera */
+    object-fit: cover; /* Zachowanie proporcji obrazka */
+    pointer-events: none;
+  }
+  
+  /* Kontener tekstu i kursora */
+  .quote-wrapper {
+    display: flex;
+    align-items: center; /* Wyrównanie tekstu i kursora */
+    white-space: nowrap; /* Zapewnia, że tekst nie będzie zawijał się do nowej linii */
+    width: 100%; /* Ustalona szerokość kontenera */
+    max-width: 600px; /* Można dostosować maksymalną szerokość */
+    padding: 0 10px;  /* Odstęp od krawędzi kontenera */
+    box-sizing: border-box;
+  }
+  
+  /* Styl cytatu */
+  .quote {
+    font-size: 2rem;
+    font-weight: bold;
+    color: snow;
+    font-family: 'Arial', sans-serif;
+    font-style: italic;
+    text-align: right;
+    opacity: 1;
+    margin: 0 5px 0 350px;  /* Odstęp między tekstem a kursorem */
+  }
+  
+  /* Styl migającego kursora */
+  .cursor {
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgb(235, 222, 222);
+    animation: blink 0.8s step-start infinite; /* Miganie kursora */
+  }
+  
+  /* Animacja migającego kursora */
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @media (width<1000px)
+  {
+    .quote
+    {
+        margin: 0 5px 0 70px;
+    }
+  }

@@ -1,0 +1,48 @@
+/* Modal.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* Ciemne tło */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: #2c2f36;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .modal h2 {
+    margin-bottom: 15px;
+  }
+  
+  .modal p {
+    margin-bottom: 20px;
+  }
+  
+  .modal-close-button {
+    padding: 10px 20px;
+    background-color: #ff4d4d; /* Czerwony kolor */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-close-button:hover {
+    background-color: #e03e3e; /* Ciemniejszy czerwony na hover */
+  }
+  
