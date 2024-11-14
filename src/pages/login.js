@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Form from '../Components/LogRegisterForm/LoginRegisterForm';
 import Snowfall from '../Components/Snowfall/Snowfall';
 import Motto from '../Components/Motto/motto';
+import Options from '../Components/Options/Option'
 import './login.css';
 
 const Login = () => {
@@ -13,6 +14,7 @@ const Login = () => {
         <Motto />
         <Form />
       </div>
+      <Options />
     </div>
   );
 };

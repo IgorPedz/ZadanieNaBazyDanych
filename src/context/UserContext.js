@@ -5,15 +5,24 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Simulate login function
+  // Przy pierwszym renderze, sprawdź czy są zapisane dane użytkownika w localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); // Jeśli dane są w localStorage, ustaw je w stanie
+    }
+  }, []);
+
+  // Funkcja logowania - zapisuje dane użytkownika w stanie i localStorage
   const login = (userData) => {
-    setUser(userData); // Here you would set the user data you get from API or form
-    localStorage.setItem('user', JSON.stringify(userData)); // Save to localStorage if needed
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData)); // Zapisuje dane w localStorage
   };
 
+  // Funkcja wylogowania - usuwa dane użytkownika z stanu i localStorage
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
+    localStorage.removeItem('user'); // Usuwa dane użytkownika z localStorage
   };
 
   return (

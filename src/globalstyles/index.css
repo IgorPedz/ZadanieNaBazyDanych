@@ -1,4 +1,4 @@
-/* Globalne style */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,8 +12,8 @@
     align-items: center;
     height: 100vh;
     flex-direction: row;
-    background: black; /* Ciemniejszy gradient */
-    color: #ecf0f1; /* Jasny tekst, aby kontrastował z ciemnym tłem */
+    background: black;
+    color: #ecf0f1; 
     overflow: hidden;
   }
   .site-title {

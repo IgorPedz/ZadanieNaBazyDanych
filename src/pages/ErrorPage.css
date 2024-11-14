@@ -1,0 +1,48 @@
+.errorPageContainer
+{
+    display: flex;
+    flex-direction: column;
+}
+  .errorTitle {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .errorDescription {
+    font-size: 18px;
+    margin-bottom: 30px;
+    text-align: center;
+    max-width: 600px;
+  }
+  
+  .goBackButton {
+    padding: 10px 20px;
+    background-color: #c82333;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .goBackButton:hover {
+    background-color: #721c24;
+  }
+  .logo {
+    width: 400px; 
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    animation: spin 5s linear infinite; /* animacja spin */
+  }
+  
+  /* Definicja animacji spin */
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg); 
+    }
+  }

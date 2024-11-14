@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($result->num_rows > 0) {
                 $user = $result->fetch_assoc();
                 if (password_verify($password, $user['Haslo'])) {
-                    echo json_encode(['success' => true, 'message' => 'Zalogowano pomyślnie.']);
+                    echo json_encode(['username'=>$user,'email'=>$email,'success' => true, 'message' => 'Zalogowano pomyślnie.']);
                 } else {
                     echo json_encode(['error' => true, 'message' => 'Niepoprawne hasło.']);
                 }

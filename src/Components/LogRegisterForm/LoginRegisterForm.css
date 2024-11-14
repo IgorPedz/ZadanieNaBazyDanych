@@ -1,5 +1,4 @@
 
-/* Ogólne style dla formularza */
 .form-container {
   width: 100%;
   min-width: 250px;
@@ -29,7 +28,7 @@
 .forgot-password {
   cursor: pointer;
 }
-/* Przyciski do przełączania formularzy */
+
 .form-buttons {
   display: flex;
   justify-content: center;
@@ -54,19 +53,16 @@
   color: white;
 }
 
-/* Aktywny przycisk (wybrany formularz) */
 .toggle-button.active {
   background-color: #4CAF50;
   color: white;
 }
 
-/* Styl tytułu formularza */
 h2 {
   margin-bottom: 20px;
   font-size: 24px;
 }
 
-/* Styl pól formularza */
 .form-group {
   margin-bottom: 15px;
   text-align: left;
@@ -137,7 +133,7 @@ input {
   margin-top: 10px;
 }
 
-/* Przycisk wysyłania formularza */
+
 .form-submit {
   width: 100%;
   padding: 12px;

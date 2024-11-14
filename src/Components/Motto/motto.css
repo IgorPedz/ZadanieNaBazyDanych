@@ -1,4 +1,4 @@
-/* Ogólny styl kontenera cytatu */
+
 .quote-container {
     display: flex;
     flex-direction: column;
@@ -8,34 +8,31 @@
     box-sizing: border-box;
   }
   
-  /* Styl kontenera obrazka */
   .image-container {
-    position: relative; /* Umożliwia kontrolowanie pozycji obrazka */
+    position: relative; 
     width: 100%;
     height: auto;
-    margin-bottom: 20px;  /* Odstęp między obrazkiem a cytatem */
+    margin-bottom: 20px;  
   }
   
-  /* Styl obrazka */
+
   .quote-image {
     width: 100%;
-    height: auto; /* Obrazek dopasuje się do szerokości kontenera */
-    object-fit: cover; /* Zachowanie proporcji obrazka */
+    height: auto; 
+    object-fit: cover; 
     pointer-events: none;
   }
   
-  /* Kontener tekstu i kursora */
   .quote-wrapper {
     display: flex;
-    align-items: center; /* Wyrównanie tekstu i kursora */
-    white-space: nowrap; /* Zapewnia, że tekst nie będzie zawijał się do nowej linii */
-    width: 100%; /* Ustalona szerokość kontenera */
-    max-width: 600px; /* Można dostosować maksymalną szerokość */
-    padding: 0 10px;  /* Odstęp od krawędzi kontenera */
+    align-items: center; 
+    white-space: nowrap; 
+    width: 100%; 
+    max-width: 600px; 
+    padding: 0 10px;  
     box-sizing: border-box;
   }
   
-  /* Styl cytatu */
   .quote {
     font-size: 2rem;
     font-weight: bold;
@@ -44,10 +41,10 @@
     font-style: italic;
     text-align: right;
     opacity: 1;
-    margin: 0 5px 0 350px;  /* Odstęp między tekstem a kursorem */
+    margin: 0 5px 0 350px;  
   }
   
-  /* Styl migającego kursora */
+
   .cursor {
     font-size: 2rem;
     font-weight: bold;

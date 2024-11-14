@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './motto.css';  // Importujemy plik CSS dla animacji
+import './motto.css';  
 import duze_logo from '../../assets/Pictures/logo-duze.png'
 const Motto = () => {
-  // Tablica z cytatami
   const quotes = [
     "Dołącz do nas!",
     "Każde słowo łączy!",

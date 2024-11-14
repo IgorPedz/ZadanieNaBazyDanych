@@ -66,9 +66,9 @@ const Form = () => {
         } else {
           setSuccessMessage(response.message);
           setError(''); 
-
+          console.log(response)
           if (isLogin) {
-            login({ username: response.username, email: response.email });
+            login({ username: response.username.Imie, email: response.email });
             navigate('/dashboard'); 
           }
         }

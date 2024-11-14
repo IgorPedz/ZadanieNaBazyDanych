@@ -1,4 +1,3 @@
-/* login.css */
 
 .login-container {
     position: relative;
@@ -8,9 +7,9 @@
   
   .content-container {
     display: flex;
-    justify-content: space-between; /* Rozstawienie komponentów na całej szerokości */
-    align-items: center; /* Wyśrodkowanie komponentów w pionie */
-    padding: 20px; /* Dodatkowe odstępy wokół komponentów */
+    justify-content: space-between; 
+    align-items: center;
+    padding: 20px; 
     height: 100%;
     position: relative;
     z-index: 1;
@@ -26,30 +25,28 @@
     padding-left: 20px;
   }
   
-  
-  /* Animacja pisania dla motta */
   .motto {
     font-size: 2rem;
     font-weight: bold;
     display: inline-block;
-    overflow: hidden; /* Ukrywa tekst, który jeszcze się nie pojawił */
-    border-right: 0.15em solid #000; /* Kursor do efektu pisania */
-    white-space: nowrap; /* Zapewnia, że tekst będzie w jednym wierszu */
+    overflow: hidden; 
+    border-right: 0.15em solid #000; 
+    white-space: nowrap; 
     animation: typing 4s steps(12) 1s 1 normal both, blink 0.75s step-end infinite; /* Animacja pisania */
   }
   
   /* Animacja pisania */
   @keyframes typing {
     from {
-      width: 0; /* Zaczyna się od braku tekstu */
+      width: 0; 
     }
     to {
-      width: 100%; /* Kończy na pełnym tekście */
+      width: 100%; 
     }
   }
   
-  @media (height<901px) or (width<1200px) {
-    .app {
+  @media (height<901px) or (width<1600px) {
+    .content-container {
       flex-direction: column;
     }
   }
