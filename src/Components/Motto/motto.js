@@ -8,7 +8,7 @@ const Motto = () => {
     "Każde słowo łączy!",
     "Podziel się światem z innymi!",
     "Bez łączności nie ma postępu!",
-    "Silne połączenie to podstawa!"
+    "Silna komunikacja to podstawa!"
   ];
 
   const [text, setText] = useState('');

@@ -1,48 +1,153 @@
-/* Modal.css */
+/* Modal Overlay */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7); /* Ciemne tło */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Półprzezroczyste tło */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Na wierzchu innych elementów */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  border-radius: 8px;
+  width: 400px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 80vh; /* Max height for the modal */
+  overflow-y: auto; /* Dodanie przewijania w pionie, jeśli zawartość jest zbyt długa */
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Modal Header (optional) */
+.modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: snow;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Modal Text (optional) */
+.modal-content p {
+  font-size: 16px;
+  color: snow;
+  margin-bottom: 20px;
+  line-height: 1.4;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Close Button */
+.modal-content button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.modal-content button:hover {
+  background-color: #2980b9;
+}
+
+/* Reset Password Modal */
+.reset-password-modal {
+  position: fixed; /* Modal będzie wyświetlany na stałe na ekranie */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Wyśrodkowanie modalu */
+  background: #363a44;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid black;
+  border-radius: 8px;
+  z-index: 1000; /* Ustawienie na wierzchu */
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.reset-password-overlay {
+  position: fixed; /* Nakłada się na tło */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Ciemne tło za modalem */
+  z-index: 999; /* Tło musi być za modalem */
+}
+
+.reset-password-modal h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.reset-password-modal .form-group {
+  margin-bottom: 20px;
+}
+
+.reset-password-modal .cancel-button {
+  background-color: #f44336; /* Czerwony kolor tła */
+  color: white; /* Kolor tekstu */
+  border: none;
+  border-radius: 8px; /* Zaokrąglone rogi */
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer; /* Kursor zmienia się na wskaźnik */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%; /* Przyciski będą miały całą szerokość kontenera */
+  margin-top: 10px; /* Przestrzeń między przyciskami */
+}
+
+/* Efekt przycisku przy najechaniu */
+.reset-password-modal .cancel-button:hover {
+  background-color: #d32f2f; /* Ciemniejszy czerwony na hover */
+}
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .modal {
-    background: #2c2f36;
-    color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  to {
+    opacity: 1;
   }
-  
-  .modal h2 {
-    margin-bottom: 15px;
+}
+
+/* Slide-up animation for modal content */
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
   }
-  
-  .modal p {
-    margin-bottom: 20px;
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  .modal-close-button {
-    padding: 10px 20px;
-    background-color: #ff4d4d; /* Czerwony kolor */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .modal-close-button:hover {
-    background-color: #e03e3e; /* Ciemniejszy czerwony na hover */
-  }
-  
+}
+
+/* Main Form Styles */
+.form-container {
+  position: relative;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Prevent the form from expanding when modal is shown */
+.form-content {
+  max-height: 600px;
+  overflow-y: hidden;
+  transition: all 0.3s ease;
+}

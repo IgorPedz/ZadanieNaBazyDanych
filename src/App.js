@@ -1,22 +1,19 @@
 import React from 'react';
-import Snowfall from './Components/Snowfall/Snowfall'; // Efekt śniegu
-import LoginRegisterForm from './Components/LogRegisterForm/LoginRegisterForm'; // Formularz logowania/rejestracji
-import Motto from './Components/Motto/motto' // motto pod obrazkiem
-import './globalstyles/App.css'; // Globalne style
-
-
-function App() {
+import { Routes, Route } from 'react-router-dom';
+import Log from './pages/login'
+import Dashboard from './pages/dashboard';
+import { UserProvider } from './context/UserContext';
+const App = () => {
   return (
-    <div className="container">
-      <div className='app'>
-      <Snowfall /> {/* Efekt spadającego śniegu */}
-        <Motto />
-        <LoginRegisterForm /> {/* Formularz logowania/rejestracji */}
-      </div>
-
+    <div>
+      <UserProvider>
+        <Routes>
+          <Route path="/" element={<Log />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </UserProvider>
     </div>
-    
   );
-}
+};
 
 export default App;

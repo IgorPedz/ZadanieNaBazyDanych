@@ -13,7 +13,22 @@
   transition: all 0.3s ease-in-out;
   
 }
+.error-message {
+  color: red;
+  font-size: 16px;
+  margin-top: 10px;
+}
 
+.success-message {
+  color: green;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+
+.forgot-password {
+  cursor: pointer;
+}
 /* Przyciski do przełączania formularzy */
 .form-buttons {
   display: flex;
@@ -134,11 +149,11 @@ input {
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: bold;
+  overflow: hidden;
 }
 
 .form-submit:hover {
   background-color: #0b7dda;
-  transform: scale(1.05);
 }
 
 /* Animacja formularza przy przełączaniu */

@@ -7,40 +7,32 @@ const Snowfall = () => {
   useEffect(() => {
     const container = snowfallRef.current;
 
-    // Funkcja generująca płatki śniegu
     const createSnowflakes = (count) => {
       for (let i = 0; i < count; i++) {
         const snowflake = document.createElement('div');
         snowflake.classList.add('snowflake');
         container.appendChild(snowflake);
 
-        // Losowa wielkość płatków
-        const width = Math.random() * 10 + 25; // Płatki od 25px do 35px
+        const width = Math.random() * 10 + 25; 
         const height = width - 20;
-        snowflake.style.width = `${width}px`;  // Poprawione interpolowanie zmiennych
-        snowflake.style.height = `${height}px`; // Poprawione interpolowanie zmiennych
+        snowflake.style.width = `${width}px`;  
+        snowflake.style.height = `${height}px`; 
 
-        // Losowa prędkość opadania
-        const duration = Math.random() * 5 + 4; // Czas opadania od 4s do 9s
-        snowflake.style.animationDuration = `${duration}s`; // Poprawione interpolowanie zmiennych
+        const duration = Math.random() * 5 + 4; 
+        snowflake.style.animationDuration = `${duration}s`; 
 
-        // Losowe przesunięcie na osi X (używamy vw, aby było to niezależne od szerokości okna)
-        const randomX = Math.random() * 100; // Przesunięcie na całej szerokości okna (od 0vw do 100vw)
-        snowflake.style.setProperty('--random-x', `${randomX}vw`); // Poprawione interpolowanie zmiennych
+        const randomX = Math.random() * 100;
+        snowflake.style.setProperty('--random-x', `${randomX}vw`); 
 
-        // Losowe opóźnienie animacji, aby płatki zaczynały opadać w różnym czasie
-        const delay = Math.random() * 3; // Opóźnienie od 0 do 3 sekund
-        snowflake.style.animationDelay = `${delay}s`; // Poprawione interpolowanie zmiennych
+        const delay = Math.random() * 3; 
+        snowflake.style.animationDelay = `${delay}s`; 
 
-        // Animacja spadania płatków
         snowflake.style.animationName = 'fall';
       }
     };
 
-    // Generujemy 50 płatków śniegu
     createSnowflakes(30);
 
-    // Czyszczenie płatków po unmount komponentu
     return () => {
       container.innerHTML = '';
     };

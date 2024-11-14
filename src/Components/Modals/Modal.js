@@ -2,16 +2,14 @@
 import React from 'react';
 import './Modal.css';
 
-const Modal = ({ message, onClose }) => {
-  return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <h2>Błąd</h2>
-        <p>{message}</p>
-        <button onClick={onClose} className="modal-close-button">Zamknij</button>
-      </div>
+const Modal = ({ message, closeModal }) => (
+  <div className="modal-overlay" onClick={closeModal}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <p>{message}</p>
+      <button onClick={closeModal}>Zamknij</button>
     </div>
-  );
-};
+  </div>
+);
 
 export default Modal;
+
