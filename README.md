@@ -48,11 +48,13 @@ Aby uruchomić projekt lokalnie, musisz mieć zainstalowane:
     - "react-router-dom": "^6.28.0",
     - "react-scripts": "5.0.1",
     - "web-vitals": "^2.1.4"
+    - "react-slick": "^0.30.2",
+    - "slick-carousel": "^1.8.1",
 
     KOMENDA DO POBRANIA WSZYSTKICH NARAZ
       (pamietaj by ją wykonac w odpowiednim miejscu)
 ```bash
-   npm install @fortawesome/free-solid-svg-icons@^6.6.0 @fortawesome/react-fontawesome@^0.2.2 @testing-library/jest-dom@^5.17.0 @testing-library/react@^13.4.0 @testing-library/user-event@^13.5.0 jquery@^3.7.1 react@^18.3.1 react-dom@^18.3.1 react-helmet@^6.1.0 react-router-dom@^6.28.0 react-scripts@5.0.1 web-vitals@^2.1.4
+   npm install @fortawesome/free-solid-svg-icons@^6.6.0 @fortawesome/react-fontawesome@^0.2.2 @testing-library/jest-dom@^5.17.0 @testing-library/react@^13.4.0 @testing-library/user-event@^13.5.0 jquery@^3.7.1 react@^18.3.1 react-dom@^18.3.1 react-helmet@^6.1.0 react-router-dom@^6.28.0 react-scripts@5.0.1 web-vitals@^2.1.4 react-slick@^0.30.2 slick-carousel@^1.8.1
 ```
 ## Przed uruchomieniem
  - Folder scripts - wypakuj całą zawartość w folderze xampp/htdocs.
