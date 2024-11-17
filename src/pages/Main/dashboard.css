@@ -1,0 +1,165 @@
+
+.background
+{
+    width: 100vw;
+    height: 100vh;
+}
+.dashboard-container {
+    padding: 0.75rem;
+    max-width: 90%;
+    margin: 1rem auto;
+    background-color:#121212; 
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display:grid;
+    gap:2rem;
+  }
+  .Main-content
+  {
+    display: flex;
+  }
+
+  .dashboard-content {
+    margin: 2rem;
+    text-align: right;
+    cursor: pointer;
+  }
+  .dashboard-nav
+  {
+    border:1px solid snow;
+    display: flex;
+  }
+  .user-info {
+    display: flex;
+    gap:2rem;
+    align-items: center;
+    text-align: right;
+    margin-left: 80%;
+    animation: pulse 6s infinite;
+  }
+  
+  .profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid snow; 
+  }
+  
+  h1 {
+    font-size: 26px;
+    color: snow; 
+    margin: 10px 0;
+    font-weight: 700;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .email {
+    color: #657786; 
+    font-size: 14px;
+  }
+  .footer
+  {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap:1.5rem;
+    font-size: 1.1rem;
+    margin: 10px 20px;
+  }
+  .copy::before
+  {
+    content:'\00A9 2024 Fuse. Wszystkie prawa zastrzeżone.'
+  }
+
+.logout
+{
+    cursor: pointer;
+    position: relative;
+}
+  .logout:hover {
+   color: #1991DB; 
+  }
+
+  .login-prompt {
+    text-align: center;
+  }
+  
+  .login-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .login-prompt p {
+    font-size: 18px;
+    color: #1DA1F2;
+    font-weight: 600;
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1); 
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .settings {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    color: #1da1f2;
+    transition: color 1s;
+    position: relative;
+  }
+  
+  /* Animacja obrotu */
+  @keyframes rotateGear {
+    0% {
+      transform: rotate(0deg); 
+    }
+    100% {
+      transform: rotate(360deg); 
+    }
+  }
+  
+  .settings:hover {
+    color: #1991db; 
+    animation: rotateGear 2s linear infinite; 
+  }
+  
+  @media (width<768px)
+  {
+    .Main-content
+    {
+      display: grid;
+    }
+    .top-hashtags
+    {
+      order: 0;
+    }
+    .user-info
+    {
+      margin-left: 40%;
+    }
+    .navbar
+    {
+      width: 82vw;
+    }
+    .list-options
+    {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hash
+    {
+      display: none;
+    }
+  }

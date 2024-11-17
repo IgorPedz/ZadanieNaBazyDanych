@@ -12,16 +12,17 @@ const Motto = () => {
 
   const [text, setText] = useState('');
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0); // Index obecnego cytatu
-
+  
   useEffect(() => {
     const fullQuote = quotes[currentQuoteIndex];
     let index = 0;
 
     // Funkcja animująca pisanie i cofanie tekstu
     const typingInterval = setInterval(() => {
+      
       setText(prevText => prevText + fullQuote[index]);
       index++;
-
+      
       // Po zakończeniu pisania pełnego cytatu, uruchamiamy efekt cofania
       if (index === fullQuote.length) {
         clearInterval(typingInterval);

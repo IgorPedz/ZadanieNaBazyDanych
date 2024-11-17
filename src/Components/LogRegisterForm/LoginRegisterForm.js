@@ -18,7 +18,7 @@ const Form = () => {
   const [showModal, setShowModal] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false); 
   const [resetEmail, setResetEmail] = useState('');
-  const [resetSuccess, setResetSuccess] = useState(false);
+  const [setResetSuccess] = useState(false);
 
   const { login } = useUser();
 

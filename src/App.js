@@ -1,10 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Log from './pages/login'
-import Dashboard from './pages/dashboard';
 import { UserProvider } from './context/UserContext';
-import AdminPage from './pages/AdminPage'
-import ErrorPage from './pages/ErrorPage'
+
+import Log from './pages/Login/login'
+import Dashboard from './pages/Main/dashboard';
+import AdminPage from './pages/Admin/AdminPage'
+import ErrorPage from './pages/Error/ErrorPage'
 const App = () => {
   return (
     <div>
@@ -12,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Log />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:username" element={<Dashboard />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>

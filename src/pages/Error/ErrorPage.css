@@ -34,10 +34,9 @@
     height: auto;
     display: block;
     margin: 0 auto;
-    animation: spin 5s linear infinite; /* animacja spin */
+    animation: spin 5s linear infinite; 
   }
   
-  /* Definicja animacji spin */
   @keyframes spin {
     0% {
       transform: rotate(0deg);

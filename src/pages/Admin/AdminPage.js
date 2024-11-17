@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import './AdminPage.css'; 
-import Motto from '../Components/Motto/motto';
+import Motto from '../../Components/Motto/motto';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';  
 
 const AdminPage = () => {
-  const [data, setData] = useState([]); // Przechowywanie danych
-  const [query, setQuery] = useState(''); // Zapytanie SQL wpisywane przez użytkownika
-  const [error, setError] = useState(null); // Przechowywanie błędów
+  const [data, setData] = useState([]); 
+  const [query, setQuery] = useState(''); 
+  const [error, setError] = useState(null); 
   const navigate = useNavigate();
-  // Funkcja do wysyłania zapytania SQL do serwera PHP
   const goHome = () => {
-    navigate('/');  // Przekierowanie na stronę główną
+    navigate('/');  
   };
   const fetchData = (query) => {
     fetch(`http://localhost/admin.php?query=${encodeURIComponent(query)}`)
@@ -21,7 +20,7 @@ const AdminPage = () => {
           setError(data.error); 
           setData([]);
         } else {
-          setData(data); // Ustaw dane, które otrzymaliśmy z zapytania
+          setData(data); 
           setError(null);
         }
       })
@@ -31,7 +30,6 @@ const AdminPage = () => {
       });
   };
 
-  // Funkcja do obsługi kliknięcia w przycisk (właściwie, dla każdej tabeli)
   const handleButtonClick = (tableName) => {
     fetch(`http://localhost/admin.php?table=${tableName}`)
       .then((response) => response.json())
@@ -50,7 +48,6 @@ const AdminPage = () => {
       });
   };
 
-  // Funkcja do obsługi kliknięcia w przycisk dla widoków
   const handleViewClick = (viewName) => {
     fetch(`http://localhost/admin.php?view=${viewName}`)
       .then((response) => response.json())
@@ -69,7 +66,6 @@ const AdminPage = () => {
       });
   };
 
-  // Funkcja do renderowania tabeli
   const renderTable = () => {
     if (data.length === 0) {
       return <div className="noData">Brak danych do wyświetlenia.</div>;
@@ -106,7 +102,6 @@ const AdminPage = () => {
       <div className="container">
       <button className='Logout-button'onClick={goHome}>Wyloguj się</button>
         <h1 className="header">Panel Administratora | SQL</h1>
-        {/* Przyciski do wyświetlania tabel i widoków */}
         <div className="buttonsContainer">
           <button className="button" onClick={() => handleButtonClick('uzytkownicy')}>Użytkownicy</button>
           <button className="button" onClick={() => handleButtonClick('posty')}>Posty</button>
@@ -118,7 +113,6 @@ const AdminPage = () => {
           <button className="button" onClick={() => handleButtonClick('znajomi')}>Znajomi</button>
         </div>
         <div className="buttonsContainer">
-          {/* Przyciski do wyświetlania widoków */}
          <p>WIDOKI</p>
           <button className="button" onClick={() => handleViewClick('aktywnosc_uzytkownikow')}>Widok  Użytkownicy</button>
           <button className="button" onClick={() => handleViewClick('komentarze_z_postami')}>Widok Posty</button>
@@ -131,7 +125,6 @@ const AdminPage = () => {
           <button className="button" onClick={() => handleViewClick('znaj')}>Widok Znaj</button>
         </div>
 
-        {/* Formularz do wpisywania zapytań SQL */}
         <div className="queryContainer">
           Zapytanie  SQL
           <textarea
@@ -148,10 +141,8 @@ const AdminPage = () => {
           </button>
         </div>
 
-        {/* Wyświetlanie błędów */}
         {error && <div className="error">{error}</div>}
 
-        {/* Wyświetlanie wyników w tabeli */}
         <div className="tableStructure">
           {renderTable()}
         </div>
