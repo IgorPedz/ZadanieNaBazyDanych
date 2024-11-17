@@ -55,7 +55,7 @@ Aby uruchomić projekt lokalnie, musisz mieć zainstalowane:
    npm install @fortawesome/free-solid-svg-icons@^6.6.0 @fortawesome/react-fontawesome@^0.2.2 @testing-library/jest-dom@^5.17.0 @testing-library/react@^13.4.0 @testing-library/user-event@^13.5.0 jquery@^3.7.1 react@^18.3.1 react-dom@^18.3.1 react-helmet@^6.1.0 react-router-dom@^6.28.0 react-scripts@5.0.1 web-vitals@^2.1.4
 ```
 ## Przed uruchomieniem
- - Folder scripts - cała zawartośc musi znaleźć się w folderze xampp/htdocs.
+ - Folder scripts - wypakuj całą zawartość w folderze xampp/htdocs.
  - Stworzenie Bazy mySqL za pomocą struktury zawartej na githubie.
  - Włączenie localhosta xampp
  2. Uruchomienie aplikacji
