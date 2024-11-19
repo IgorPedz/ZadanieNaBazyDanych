@@ -12,6 +12,8 @@ import Hashtags from '../../Components/Hashtags/hashtags';
 import Stories from  '../../Components/Stories/Stories'; 
 import Profil from '../../Components/Profil/Profil';
 import SettingsModal from '../../Components/Settings/Settings'; 
+import Fan from  '../../Components/FriendsAndObservers/FriendsAndObservers'
+import Chat from '../../Components/Chat/Chat'
 
 const Dashboard = () => {
   const { user, logout } = useUser(); 
@@ -19,6 +21,15 @@ const Dashboard = () => {
   const navigate = useNavigate(); 
   const [selectedHashtag, setSelectedHashtag] = useState('');
   const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false); 
+  const [currentChat, setCurrentChat] = useState(null); // Użytkownik, z którym prowadzimy czat
+
+  const handleOpenChat = (friendUsername) => {
+    setCurrentChat(friendUsername); // Otwieramy czat z wybranym znajomym
+  };
+
+  const handleCloseChat = () => {
+    setCurrentChat(null); // Zamykamy czat
+  };
 
   const handleHashtagClick = (hashtag) => {
     setSelectedHashtag(hashtag); 
@@ -27,7 +38,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!user) {
-      window.location.href = '/';
+      navigate('/')
     }
   }, [user]);
 
@@ -47,7 +58,7 @@ const Dashboard = () => {
   return (
     <div className="background">
       {user ? (
-        <div className="dashboard-content">
+        <div className="dashboard-content">        
           <div onClick={() => { handleAdditionalActions(user.username); }} className="user-info">
             <h1>Witaj, {user.username}!</h1>
             <img 
@@ -56,6 +67,7 @@ const Dashboard = () => {
               className="profile-image"
             />
           </div>
+          <Fan handleAdditionalActions={handleOpenChat}/>
         </div>
       ) : (
         <div className="login-prompt">
@@ -63,22 +75,25 @@ const Dashboard = () => {
           <p>Zapraszamy z powrotem! :)</p>
         </div>
       )}
-
       <div className="dashboard-container">
         <Helmet>
           <title>Fuse</title>
         </Helmet>
+        
         <div className="dashboard-navbar">
           <Navbar 
             onTabChange={setActiveTab}
             selectedHashtag={selectedHashtag}
+            onHashtagClick={handleHashtagClick}
           />
         </div>
+        
         <div className="Main-content">
           {activeTab === 'posts' ? <Posts handleAdditionalActions={handleAdditionalActions} onHashtagClick={handleHashtagClick} /> : activeTab === 'stories' ? <Stories /> : activeTab === 'profil' ? <Profil /> : null}
           <span className="hash">
             <Hashtags onHashtagClick={handleHashtagClick} />
           </span>
+          {currentChat && <Chat friendUsername={currentChat} onClose={handleCloseChat} />}
         </div>
       </div>
 

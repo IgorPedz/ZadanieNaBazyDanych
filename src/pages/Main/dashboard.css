@@ -21,8 +21,10 @@
 
   .dashboard-content {
     margin: 2rem;
-    text-align: right;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap:1rem;
+    justify-content: center;
   }
   .dashboard-nav
   {
@@ -36,6 +38,7 @@
     text-align: right;
     margin-left: 80%;
     animation: pulse 6s infinite;
+    cursor: pointer;
   }
   
   .profile-image {
@@ -53,7 +56,6 @@
     font-weight: 700;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
   }
-  
   .email {
     color: #657786; 
     font-size: 14px;
@@ -133,7 +135,7 @@
     color: #1991db; 
     animation: rotateGear 2s linear infinite; 
   }
-  
+
   @media (width<768px)
   {
     .Main-content

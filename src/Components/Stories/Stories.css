@@ -1,6 +1,6 @@
 .stories-container {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1500px;
   margin: 0 auto;
   position: relative;
   margin-right: 30px;
@@ -183,6 +183,7 @@
 @media (width<768px)
 {
   .stories-container {
-    max-width: 700px;
+    max-width: 800px;
+    overflow-x: hidden;
   }
 }

@@ -1,0 +1,143 @@
+/* Chat container */
+.chat-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 350px;
+    height: 500px;
+    background-color: #333;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease-out;
+    transition: height 0.3s ease; /* Dodajemy płynne przejście przy minimalizacji */
+    margin-right: 300px;
+  }
+  
+  /* Minimalizacja */
+  .chat-container.minimized {
+    height: 50px; /* Minimalna wysokość czatu */
+    width: 200px; /* Węższa szerokość czatu w stanie zminimalizowanym */
+    overflow: hidden; /* Ukrywa zawartość */
+  }
+  
+  /* Header of the chat */
+  .chat-header {
+    background-color: #1a1a1a;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .chat-header h3 {
+    color: #fff;
+    font-size: 18px;
+    margin: 0;
+  }
+  
+  .chat-header-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .minimize-chat, .close-chat {
+    color: #fff;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .minimize-chat:hover, .close-chat:hover {
+    color: #ff4b5c;
+  }
+  
+  /* Messages section */
+  .chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #2e2e2e;
+    border-bottom: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .message {
+    padding: 10px;
+    max-width: 70%;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+  
+  .message.sent {
+    background-color: #1e90ff;
+    color: white;
+    margin-left: auto; /* Wyrównuje wiadomości wysyłane przez Ciebie na prawo */
+  }
+  
+  .message.received {
+    background-color: #444;
+    color: #bbb;
+    margin-left: 0; /* Wiadomości otrzymane pozostają po lewej stronie */
+  }
+  
+  .message strong {
+    color: #fff;
+  }
+  
+  /* Input area */
+  .chat-input {
+    display: flex;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border-radius: 0 0 10px 10px;
+    align-items: center;
+  }
+  
+  .chat-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #444;
+    color: #fff;
+    font-size: 14px;
+  }
+  
+  .chat-input input::placeholder {
+    color: #aaa;
+  }
+  
+  .chat-input button {
+    padding: 10px 15px;
+    background-color: #1e90ff;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .chat-input button:hover {
+    background-color: #0066cc;
+  }
+  
+  /* Animation for opening the chat */
+  @keyframes slideUp {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  

@@ -9,7 +9,7 @@ const SettingsModal = ({ isVisible, onClose }) => {
       <div className="content">
         <div className="header">
           <h2>Ustawienia</h2>
-          <button onClick={onClose} className="close-btn">X</button>
+          <div onClick={onClose} className="close-btn">X</div>
         </div>
         <div className="body">
           <p>Tu bedą ustawienia :P</p>

@@ -21,6 +21,7 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
       comments: ['Pierwszy komentarz!', 'Super post!', 'Witaj!'],
       likeCount: 10,
       liked: false,
+      publishedAt: new Date('2024-10-01T12:30:00'), // Dodanie daty publikacji
     },
     {
       id: 2,
@@ -32,11 +33,16 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
       comments: ['Hej Anna!', 'Dobrze, a u Ciebie?'],
       likeCount: 5,
       liked: false,
+      publishedAt: new Date('2024-10-02T08:15:00'), // Dodanie daty publikacji
     },
   ]);
 
   const [showModal, setShowModal] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
+
+  if (!user) {
+    return <div>Ładowanie użytkownika...</div>; 
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,19 +54,37 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
 
   const handlePublish = () => {
     if (newPost.title && newPost.content) {
-      const newPostData = {
-        id: posts.length + 1,
-        username: user.username,
-        nickname: 'admin1',
-        title: newPost.title,
-        content: newPost.content,
-        hashtags: newPost.hashtags.split(' '),
-        comments: [],
-        likeCount: 0, 
-        liked: false, 
-      };
-      setPosts([newPostData, ...posts]); 
-      setNewPost({ title: '', content: '', hashtags: [] });
+      const publishDate = new Date(); // Data publikacji na bieżąco
+      if (currentPost) {
+        const updatedPosts = posts.map((post) =>
+          post.id === currentPost.id
+            ? {
+                ...post,
+                title: newPost.title,
+                content: newPost.content,
+                hashtags: newPost.hashtags.split(' '),
+                publishedAt: publishDate, // Zaktualizowanie daty publikacji
+              }
+            : post
+        );
+        setPosts(updatedPosts);
+      } else {
+        const newPostData = {
+          id: posts.length + 1,
+          username: user.username,
+          nickname: 'admin1',
+          title: newPost.title,
+          content: newPost.content,
+          hashtags: newPost.hashtags.split(' '),
+          comments: [],
+          likeCount: 0, 
+          liked: false,
+          publishedAt: publishDate, // Data publikacji
+        };
+        setPosts([newPostData, ...posts]); 
+      }
+      setNewPost({ title: '', content: '', hashtags: '' }); // Reset formularza
+      setCurrentPost(null); // Resetowanie edytowanego posta
     }
   };
 
@@ -84,6 +108,31 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
   const closeModal = () => {
     setShowModal(false);
     setCurrentPost(null);
+  };
+
+  const handleEditPost = (postId) => {
+    const postToEdit = posts.find((post) => post.id === postId);
+    setNewPost({
+      title: postToEdit.title,
+      content: postToEdit.content,
+      hashtags: postToEdit.hashtags.join(' '), // Przekształcenie tablicy hashtagów w string
+    });
+    setCurrentPost(postToEdit); // Ustawiamy post do edycji
+  };
+
+  const handleDeletePost = (postId) => {
+    setPosts(posts.filter((post) => post.id !== postId));
+  };
+
+  // Formatowanie daty (np. "1 października 2024, 12:30")
+  const formatDate = (date) => {
+    return new Intl.DateTimeFormat('pl-PL', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
   };
 
   return (
@@ -125,7 +174,7 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
         />
 
         <button onClick={handlePublish} className="publish-button">
-          Opublikuj
+          {currentPost ? 'Zapisz zmiany' : 'Opublikuj'}
         </button>
       </div>
 
@@ -143,9 +192,12 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
                 style={{ cursor: 'pointer', color: '#1d9bf0' }}
                 onClick={() => handleAdditionalActions(post.username)}
               >
-                {post.username}<span className="post-nickname">@{post.nickname}</span>
+                {post.username}
+                <span className="post-nickname">@{post.nickname}</span>
               </span>
               <h2 className="post-title">{post.title}</h2>
+              {/* Dodanie daty publikacji */}
+              <span className="post-date">{formatDate(post.publishedAt)}</span>
             </div>
           </div>
 
@@ -170,19 +222,30 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
             >
               💬{post.comments.length}
             </span>
+
+            {user.username === post.username && (
+              <div className="post-actions-extra">
+                <button onClick={() => handleEditPost(post.id)} className="edit-button">
+                  Edytuj
+                </button>
+                <button onClick={() => handleDeletePost(post.id)} className="del-button">
+                  Usuń
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="post-hashtags">
-  {post.hashtags.map((hashtag, index) => (
-    <span
-      key={index}
-      onClick={() => onHashtagClick(hashtag)} 
-      className="hashtag"
-    >
-      {hashtag}
-    </span>
-  ))}
-</div>
+            {post.hashtags.map((hashtag, index) => (
+              <span
+                key={index}
+                onClick={() => onHashtagClick(hashtag)} 
+                className="hashtag"
+              >
+                {hashtag}
+              </span>
+            ))}
+          </div>
 
         </div>
       ))}

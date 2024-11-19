@@ -16,7 +16,7 @@ body
     text-align: center;
     color: snow;
     margin-bottom: 30px;
-    font-size: 2em;
+    font-size: 1em;
   }
   
 
@@ -29,7 +29,7 @@ body
   .quote-image
   {
     z-index: 1;
-    width: 50%;
+    width: 40%;
   }
  
   .button {
@@ -48,7 +48,7 @@ body
   }
   
   .table {
-    width: 100%;
+    width:100%;
     border-collapse: collapse;
     margin-bottom: 30px;
     color:black;

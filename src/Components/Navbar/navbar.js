@@ -4,11 +4,11 @@ import './navbar.css';
 import logo_male from '../../assets/Pictures/logo-error.png';
 import Searchbar from '../Searchbar/searchbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCameraRetro, faUser, faCommentDots, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faCameraRetro,faCommentDots, faBars } from '@fortawesome/free-solid-svg-icons';
 import Hashtags from '../Hashtags/hashtags'
 import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({ onTabChange,selectedHashtag }) => {
+const Navbar = ({ onTabChange,selectedHashtag,onHashtagClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +58,7 @@ const Navbar = ({ onTabChange,selectedHashtag }) => {
         <div className="list-options">
           {isMobile && isMenuOpen && (
             <div className="close-menu" onClick={closeMenu}>
-                 <Hashtags/>              
+                 <Hashtags onHashtagClick={onHashtagClick}/>              
             </div>
           )}
 
@@ -75,10 +75,6 @@ const Navbar = ({ onTabChange,selectedHashtag }) => {
             }} className="Icon-option">
             <h4 className="icon-header">Stories</h4>
             <FontAwesomeIcon className="icon" icon={faCameraRetro} />
-          </span>
-          <span onClick={() => onTabChange('profil')} className="Icon-option">
-            <h4 className="icon-header">Profil</h4>
-            <FontAwesomeIcon className="icon" icon={faUser} />
           </span>
         </div>
       )}
