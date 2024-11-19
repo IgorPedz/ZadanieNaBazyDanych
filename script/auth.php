@@ -23,12 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $data['email'];
         $password = $data['password'];
 
-        // Walidacja adresu email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo json_encode(['error' => true, 'message' => 'Niepoprawny format adresu e-mail.']);
-            exit;
-        }
-
         if (isset($data['username']) && isset($data['confirmPassword'])) {
             // Rejestracja użytkownika
             $username = $data['username'];
@@ -58,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // Wstawianie użytkownika
-            $insertQuery = "INSERT INTO uzytkownicy (imie, nazwisko, nick, email, haslo) VALUES (?, ?, ?, ?, ?)";
+            $insertQuery = "INSERT INTO uzytkownicy (imie, nazwisko, nick ,email, haslo) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($insertQuery);
             $stmt->bind_param("sssss", $username, $surrname, $nickname, $email, $hashedPassword);
 
@@ -77,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result->num_rows > 0) {
                 $user = $result->fetch_assoc();
-                if (password_verify($password, $user['haslo'])) { 
-                    echo json_encode(['username' => $user['nick'], 'email' => $email, 'success' => true, 'message' => 'Zalogowano pomyślnie.']);
+                if (password_verify($password, $user['Haslo'])) {
+                    echo json_encode(['username'=>$user,'email'=>$email,'success' => true, 'message' => 'Zalogowano pomyślnie.']);
                 } else {
                     echo json_encode(['error' => true, 'message' => 'Niepoprawne hasło.']);
                 }
