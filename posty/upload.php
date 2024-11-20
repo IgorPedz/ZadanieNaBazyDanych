@@ -9,6 +9,9 @@ $conn = new mysqli($host, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Błąd połączenia: " . $conn->connect_error);
 }
+
+
+// Pobranie postów z bazy danych
 $sql = "
     SELECT 
         p.ID_postu,
@@ -35,10 +38,17 @@ if ($result->num_rows > 0) {
         echo "<p><strong>Data publikacji:</strong> " . htmlspecialchars($row['Data_publikacji']) . "</p>";
         echo "<p><strong>Polubienia:</strong> " . htmlspecialchars($row['Ilosc_polubien']) . "</p>";
 
+        // Formularz do polubienia posta
+        echo "<form method='POST' action='like_posts.php'>
+                <input type='hidden' name='postID' value='" . $row['ID_postu'] . "'>
+                <button type='submit'>Polub</button>
+              </form>";
+
         // Pobranie komentarzy dla aktualnego posta
         $postID = $row['ID_postu'];
         $sql_komentarze = "
             SELECT 
+                k.ID_komentarza,
                 k.Tresc AS TrescKomentarza,
                 k.Data_publikacji,
                 k.Ilosc_polubien AS PolubieniaKomentarza,
@@ -60,6 +70,10 @@ if ($result->num_rows > 0) {
                 echo "<p><strong>" . htmlspecialchars($komentarz['Imie']) . " " . htmlspecialchars($komentarz['Nazwisko']) . " (" . htmlspecialchars($komentarz['Nick']) . "):</strong></p>";
                 echo "<p>" . htmlspecialchars($komentarz['TrescKomentarza']) . "</p>";
                 echo "<p><small>Dodano: " . htmlspecialchars($komentarz['Data_publikacji']) . " | Polubienia: " . htmlspecialchars($komentarz['PolubieniaKomentarza']) . "</small></p>";
+                echo "<form method='POST' action='like_com.php'>
+                        <input type='hidden' name='komentarzID' value='" . $komentarz['ID_komentarza'] . "'>
+                        <button type='submit'>Polub</button>
+                      </form>";
                 echo "</div>";
             }
             echo "</div>";
@@ -83,3 +97,4 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
+
