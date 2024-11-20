@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lis 14, 2024 at 10:38 PM
--- Wersja serwera: 10.4.32-MariaDB
--- Wersja PHP: 8.2.12
+-- Czas generowania: 20 Lis 2024, 13:07
+-- Wersja serwera: 10.4.25-MariaDB
+-- Wersja PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,14 +18,14 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `socialmedia`
+-- Baza danych: `socialmedia`
 --
 
 -- --------------------------------------------------------
 
 --
 -- Zastąpiona struktura widoku `5_uzytkow_z_najwieksza_iloscia_obserwacji`
--- (See below for the actual view)
+-- (Zobacz poniżej rzeczywisty widok)
 --
 CREATE TABLE `5_uzytkow_z_najwieksza_iloscia_obserwacji` (
 `ID_uzytkownika` int(11)
@@ -39,7 +39,7 @@ CREATE TABLE `5_uzytkow_z_najwieksza_iloscia_obserwacji` (
 
 --
 -- Zastąpiona struktura widoku `aktywnosc_uzytkownikow`
--- (See below for the actual view)
+-- (Zobacz poniżej rzeczywisty widok)
 --
 CREATE TABLE `aktywnosc_uzytkownikow` (
 `ID_uzytkownika` int(11)
@@ -63,18 +63,18 @@ CREATE TABLE `filmiki` (
   `ID_uzytkownika` int(11) DEFAULT NULL,
   `Link_filmu` varchar(255) NOT NULL,
   `Data_publikacji` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `filmiki`
+-- Zrzut danych tabeli `filmiki`
 --
 
 INSERT INTO `filmiki` (`ID_filmu`, `ID_uzytkownika`, `Link_filmu`, `Data_publikacji`) VALUES
 (501, 1, 'https://www.youtube.com/watch?v=abcd1234', '2024-05-01 07:00:00'),
-(502, 2, 'https://www.youtube.com/watch?v=abcd5678', '2024-05-02 08:30:00'),
-(503, 3, 'https://www.youtube.com/watch?v=abcd9101', '2024-05-03 10:45:00'),
-(504, 4, 'https://www.youtube.com/watch?v=abcd1122', '2024-05-04 12:00:00'),
-(505, 5, 'https://www.youtube.com/watch?v=abcd3141', '2024-05-05 13:30:00');
+(506, 1, 'uploads/673dc857c33ef9.67773932.mp4', '2024-11-20 11:30:31'),
+(507, 1, 'uploads/673dc941d05736.56439140.mp4', '2024-11-20 11:34:25'),
+(508, 1, 'uploads/673dc9a71718b8.34182891.mp4', '2024-11-20 11:36:07'),
+(509, 1, 'uploads/673dcb12f25736.52769729.mp4', '2024-11-20 11:42:10');
 
 -- --------------------------------------------------------
 
@@ -90,15 +90,15 @@ CREATE TABLE `komentarze` (
   `Data_publikacji` timestamp NOT NULL DEFAULT current_timestamp(),
   `Data_edycji` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Ilosc_polubien` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `komentarze`
+-- Zrzut danych tabeli `komentarze`
 --
 
 INSERT INTO `komentarze` (`ID_komentarza`, `ID_postu`, `ID_uzytkownika`, `Tresc`, `Data_publikacji`, `Data_edycji`, `Ilosc_polubien`) VALUES
 (521, 501, 2, 'Świetny post! Zgadzam się z Tobą.', '2024-05-01 08:00:00', '2024-05-01 08:10:00', 5),
-(522, 502, 3, 'Dzięki za podzielenie się, bardzo pomocne.', '2024-05-02 10:15:00', '2024-05-02 10:20:00', 2),
+(522, 502, 3, 'Dzięki za podzielenie się, bardzo pomocne.', '2024-05-02 10:15:00', '2024-11-20 11:15:57', 3),
 (523, 503, 4, 'Zgadzam się, świetna perspektywa!', '2024-05-03 06:30:00', '2024-11-14 21:19:17', 10),
 (524, 504, 5, 'Ciekawy punkt widzenia, muszę to przemyśleć.', '2024-05-04 12:45:00', '2024-05-04 13:00:00', 3),
 (525, 505, 6, 'Podzielam Twoje zdanie, bardzo inspirujące.', '2024-05-05 14:00:00', '2024-11-14 21:19:17', 4),
@@ -106,13 +106,21 @@ INSERT INTO `komentarze` (`ID_komentarza`, `ID_postu`, `ID_uzytkownika`, `Tresc`
 (527, 507, 8, 'Świetny artykuł! Chciałbym przeczytać więcej na ten temat.', '2024-05-07 07:00:00', '2024-11-14 21:19:17', 12),
 (528, 508, 9, 'To mi się naprawdę podoba, dzięki za inspirację!', '2024-05-08 09:30:00', '2024-05-08 09:40:00', 7),
 (529, 509, 10, 'Fajne, ale mam kilka wątpliwości.', '2024-05-09 11:25:00', '2024-11-14 21:19:17', 2),
-(530, 510, 11, 'Zgadzam się w 100%. Więcej takich treści!', '2024-05-10 15:50:00', '2024-11-14 21:19:17', 6);
+(530, 510, 11, 'Zgadzam się w 100%. Więcej takich treści!', '2024-05-10 15:50:00', '2024-11-14 21:19:17', 6),
+(531, 520, NULL, 'hej', '2024-11-20 10:51:48', '2024-11-20 10:51:48', 0),
+(532, 520, NULL, 'hej', '2024-11-20 10:51:53', '2024-11-20 10:51:53', 0),
+(533, 519, NULL, 'witam', '2024-11-20 10:55:28', '2024-11-20 10:55:28', 0),
+(534, 520, 1, 'witam', '2024-11-20 11:01:01', '2024-11-20 11:42:49', 17),
+(535, 520, 1, 'czesc', '2024-11-20 11:01:26', '2024-11-20 11:08:04', 3),
+(536, 520, 1, 'hi', '2024-11-20 11:08:21', '2024-11-20 11:08:24', 6),
+(537, 520, 1, 'sup', '2024-11-20 11:13:25', '2024-11-20 11:13:27', 2),
+(538, 520, 1, 'siema', '2024-11-20 11:42:53', '2024-11-20 11:42:53', 0);
 
 -- --------------------------------------------------------
 
 --
 -- Zastąpiona struktura widoku `komentarze_z_postami`
--- (See below for the actual view)
+-- (Zobacz poniżej rzeczywisty widok)
 --
 CREATE TABLE `komentarze_z_postami` (
 `ID_komentarza` int(11)
@@ -131,7 +139,7 @@ CREATE TABLE `komentarze_z_postami` (
 
 --
 -- Zastąpiona struktura widoku `najbardziej_polubiane_komentarze`
--- (See below for the actual view)
+-- (Zobacz poniżej rzeczywisty widok)
 --
 CREATE TABLE `najbardziej_polubiane_komentarze` (
 `ID_komentarza` int(11)
@@ -149,7 +157,7 @@ CREATE TABLE `najbardziej_polubiane_komentarze` (
 
 --
 -- Zastąpiona struktura widoku `najwiecej_hasztagow`
--- (See below for the actual view)
+-- (Zobacz poniżej rzeczywisty widok)
 --
 CREATE TABLE `najwiecej_hasztagow` (
 `Hasztagi` varchar(255)
@@ -166,10 +174,10 @@ CREATE TABLE `obserwujacy` (
   `ID_obserwowanego` int(11) NOT NULL,
   `ID_obserwujacego` int(11) NOT NULL,
   `Data_obserwacji` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `obserwujacy`
+-- Zrzut danych tabeli `obserwujacy`
 --
 
 INSERT INTO `obserwujacy` (`ID_obserwowanego`, `ID_obserwujacego`, `Data_obserwacji`) VALUES
@@ -210,10 +218,10 @@ CREATE TABLE `posty` (
   `Data_edycji` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Hasztagi` varchar(255) DEFAULT NULL,
   `Ilosc_polubien` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `posty`
+-- Zrzut danych tabeli `posty`
 --
 
 INSERT INTO `posty` (`ID_postu`, `ID_uzytkownika`, `Tresc`, `Link_zdjecia`, `Tytul`, `Data_publikacji`, `Data_edycji`, `Hasztagi`, `Ilosc_polubien`) VALUES
@@ -235,8 +243,12 @@ INSERT INTO `posty` (`ID_postu`, `ID_uzytkownika`, `Tresc`, `Link_zdjecia`, `Tyt
 (516, 16, 'Wskazówki dotyczące zdrowia i dobrego samopoczucia na co dzień.', 'https://placeimg.com/640/480/any', 'Zdrowie na co dzień', '2024-04-15 23:00:00', '2024-04-15 23:05:00', '#zdrowie, #fitness', 33),
 (517, 17, 'Krótki przewodnik po najlepszych restauracjach w mieście.', 'https://placeimg.com/640/480/any', 'Najlepsze restauracje', '2024-04-17 00:00:00', '2024-04-17 00:10:00', '#jedzenie, #restauracje', 50),
 (518, 18, 'Nowe wyzwanie: nauka języka obcego w 30 dni. Przeżyj to ze mną!', 'https://placeimg.com/640/480/any', 'Nauka języka', '2024-04-18 01:00:00', '2024-04-18 01:05:00', '#nauka, #wyzwanie', 28),
-(519, 19, 'Mój pierwszy post na blogu. Czekam na opinie!', 'https://placeimg.com/640/480/any', 'Pierwszy post blogowy', '2024-04-19 02:00:00', '2024-04-19 02:10:00', '#blog, #pierwszy', 60),
-(520, 20, 'Relacja z mojej ostatniej podróży. Zobaczcie zdjęcia!', 'https://placeimg.com/640/480/any', 'Podróż życia', '2024-04-20 03:00:00', '2024-04-20 03:15:00', '#podróż, #przygoda', 75);
+(519, 19, 'Mój pierwszy post na blogu. Czekam na opinie!', 'https://placeimg.com/640/480/any', 'Pierwszy post blogowy', '2024-04-19 02:00:00', '2024-11-20 11:43:10', '#blog, #pierwszy', 61),
+(520, 20, 'Relacja z mojej ostatniej podróży. Zobaczcie zdjęcia!', 'https://placeimg.com/640/480/any', 'Podróż życia', '2024-04-20 03:00:00', '2024-11-20 11:43:17', '#podróż, #przygoda', 100),
+(527, NULL, '132456', '', '123', '2024-11-19 18:14:06', '2024-11-19 18:14:06', '#1234', 0),
+(528, NULL, '53767', '', '4556', '2024-11-19 18:16:40', '2024-11-19 18:16:40', '#1234', 0),
+(529, NULL, 'dgsjuoisGJ', '', '4556', '2024-11-20 10:35:14', '2024-11-20 10:35:14', '#1234', 0),
+(530, NULL, 'Siema siema', '', '4556', '2024-11-20 11:14:40', '2024-11-20 11:14:40', '#sup', 0);
 
 -- --------------------------------------------------------
 
@@ -248,10 +260,10 @@ CREATE TABLE `rozmowy` (
   `ID_rozmowy` int(11) NOT NULL,
   `Data_utworzenia` timestamp NOT NULL DEFAULT current_timestamp(),
   `Nazwa_rozmowy` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `rozmowy`
+-- Zrzut danych tabeli `rozmowy`
 --
 
 INSERT INTO `rozmowy` (`ID_rozmowy`, `Data_utworzenia`, `Nazwa_rozmowy`) VALUES
@@ -770,36 +782,39 @@ CREATE TABLE `uzytkownicy` (
   `Nick` varchar(50) DEFAULT NULL,
   `Email` varchar(100) NOT NULL,
   `Haslo` varchar(255) NOT NULL,
+  `Bio` text NOT NULL,
+  `Kraj` varchar(80) NOT NULL,
   `Data_Urodzenia` date DEFAULT NULL,
   `Link_Zdjecia` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `uzytkownicy`
+-- Zrzut danych tabeli `uzytkownicy`
 --
 
-INSERT INTO `uzytkownicy` (`ID_uzytkownika`, `Imie`, `Nazwisko`, `Nick`, `Email`, `Haslo`, `Data_Urodzenia`, `Link_Zdjecia`) VALUES
-(1, 'Jan', 'Kowalski', 'jankowalski', 'jankowalski@example.com', 'haslo123', '1990-05-10', 'https://randomuser.me/api/portraits/men/1.jpg'),
-(2, 'Anna', 'Nowak', 'annanowak', 'annanowak@example.com', 'haslo123', '1992-08-15', 'https://randomuser.me/api/portraits/women/1.jpg'),
-(3, 'Marek', 'Zalewski', 'marekzalewski', 'marekzalewski@example.com', 'haslo123', '1987-12-22', 'https://randomuser.me/api/portraits/men/2.jpg'),
-(4, 'Ewa', 'Wiśniewska', 'ewawisniewska', 'ewawisniewska@example.com', 'haslo123', '1994-03-05', 'https://randomuser.me/api/portraits/women/2.jpg'),
-(5, 'Paweł', 'Wójcik', 'pawelwojcik', 'pawelwojcik@example.com', 'haslo123', '1989-07-19', 'https://randomuser.me/api/portraits/men/3.jpg'),
-(6, 'Katarzyna', 'Kaczmarek', 'katarzynakaczmarek', 'katarzynakaczmarek@example.com', 'haslo123', '1991-11-30', 'https://randomuser.me/api/portraits/women/3.jpg'),
-(7, 'Piotr', 'Mazur', 'piotrmazur', 'piotrmazur@example.com', 'haslo123', '1985-02-14', 'https://randomuser.me/api/portraits/men/4.jpg'),
-(8, 'Agnieszka', 'Kowalska', 'agnieszkakowalska', 'agnieszkakowalska@example.com', 'haslo123', '1993-09-11', 'https://randomuser.me/api/portraits/women/4.jpg'),
-(9, 'Tomasz', 'Pawlak', 'tomaszpawlak', 'tomaszpawlak@example.com', 'haslo123', '1986-10-03', 'https://randomuser.me/api/portraits/men/5.jpg'),
-(10, 'Magdalena', 'Szymańska', 'magdalenaszymanska', 'magdalenaszymanska@example.com', 'haslo123', '1995-06-25', 'https://randomuser.me/api/portraits/women/5.jpg'),
-(11, 'Jakub', 'Jankowski', 'jakubjankowski', 'jakubjankowski@example.com', 'haslo123', '1988-04-17', 'https://randomuser.me/api/portraits/men/6.jpg'),
-(12, 'Monika', 'Bąk', 'monikabak', 'monikabak@example.com', 'haslo123', '1990-01-20', 'https://randomuser.me/api/portraits/women/6.jpg'),
-(13, 'Andrzej', 'Lis', 'andrzejlis', 'andrzejlis@example.com', 'haslo123', '1992-09-09', 'https://randomuser.me/api/portraits/men/7.jpg'),
-(14, 'Joanna', 'Wójcik', 'joannawojcik', 'joannawojcik@example.com', 'haslo123', '1994-02-12', 'https://randomuser.me/api/portraits/women/7.jpg'),
-(15, 'Marcin', 'Jabłoński', 'marcinjablonski', 'marcinjablonski@example.com', 'haslo123', '1983-06-02', 'https://randomuser.me/api/portraits/men/8.jpg'),
-(16, 'Olga', 'Maciąg', 'olgamaciag', 'olgamaciag@example.com', 'haslo123', '1996-12-13', 'https://randomuser.me/api/portraits/women/8.jpg'),
-(17, 'Krzysztof', 'Kwiatkowski', 'krzysztofkwiatkowski', 'krzysztofkwiatkowski@example.com', 'haslo123', '1987-11-10', 'https://randomuser.me/api/portraits/men/9.jpg'),
-(18, 'Julia', 'Nowakowska', 'julianowakowska', 'julianowakowska@example.com', 'haslo123', '1991-04-08', 'https://randomuser.me/api/portraits/women/9.jpg'),
-(19, 'Szymon', 'Stolarz', 'szymonstolarz', 'szymonstolarz@example.com', 'haslo123', '1993-08-14', 'https://randomuser.me/api/portraits/men/10.jpg'),
-(20, 'Wiktoria', 'Krawczyk', 'wiktoriakrawczyk', 'wiktoriakrawczyk@example.com', 'haslo123', '1990-05-30', 'https://randomuser.me/api/portraits/women/10.jpg'),
-(21, 'test', 'test', 'test_test', 'test@wp.pl', '$2y$10$kLHXBJhEhTe/SmFGsa6hKeXRbyk5OxWOttjl27KixKT1U6MGeLyv6', NULL, NULL);
+INSERT INTO `uzytkownicy` (`ID_uzytkownika`, `Imie`, `Nazwisko`, `Nick`, `Email`, `Haslo`, `Bio`, `Kraj`, `Data_Urodzenia`, `Link_Zdjecia`) VALUES
+(1, 'Jan', 'Kowalski', 'jankowalski', 'jankowalski@example.com', 'haslo123', 'siema to ja ', '', '1990-05-10', 'https://randomuser.me/api/portraits/men/1.jpg'),
+(2, 'Anna', 'Nowak', 'annanowak', 'annanowak@example.com', 'haslo123', '', '', '1992-08-15', 'https://randomuser.me/api/portraits/women/1.jpg'),
+(3, 'Marek', 'Zalewski', 'marekzalewski', 'marekzalewski@example.com', 'haslo123', '', '', '1987-12-22', 'https://randomuser.me/api/portraits/men/2.jpg'),
+(4, 'Ewa', 'Wiśniewska', 'ewawisniewska', 'ewawisniewska@example.com', 'haslo123', 'siema to ja ', 'Polska', '1994-03-05', 'https://randomuser.me/api/portraits/women/2.jpg'),
+(5, 'Paweł', 'Wójcik', 'pawelwojcik', 'pawelwojcik@example.com', 'haslo123', 'siema to ja ', '', '1989-07-19', 'https://randomuser.me/api/portraits/men/3.jpg'),
+(6, 'Katarzyna', 'Kaczmarek', 'katarzynakaczmarek', 'katarzynakaczmarek@example.com', 'haslo123', '', '', '1991-11-30', 'https://randomuser.me/api/portraits/women/3.jpg'),
+(7, 'Piotr', 'Mazur', 'ziomo', 'piortrulo@poczta', 'haslo123', 'siema to ja ', 'Polska', '2028-02-20', 'https://randomuser.me/api/portraits/men/4.jpg'),
+(8, 'Agnieszka', 'Kowalska', 'aga', 'agnieszkakowalska@example.com', 'haslo123', 'ja na nartach', 'Polska', '1993-09-11', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ffotoplus.pl%2F&psig=AOvVaw02XXY_TWy7C0o9Ucr6lVhY&ust=1732190712575000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPC5xbLv6okDFQAAAAAdAAAAABAE'),
+(9, 'Tomasz', 'Pawlak', 'tomaszpawlak', 'tomaszpawlak@example.com', 'haslo123', '', '', '1986-10-03', 'https://randomuser.me/api/portraits/men/5.jpg'),
+(10, 'Magdalena', 'Szymańska', 'magdalenaszymanska', 'magdalenaszymanska@example.com', 'haslo123', '', '', '1995-06-25', 'https://randomuser.me/api/portraits/women/5.jpg'),
+(11, 'Jakub', 'Jankowski', 'jakubjankowski', 'jakubjankowski@example.com', 'haslo123', '', '', '1988-04-17', 'https://randomuser.me/api/portraits/men/6.jpg'),
+(12, 'Monika', 'Bąk', 'monikabak', 'monikabak@example.com', 'haslo123', '', '', '1990-01-20', 'https://randomuser.me/api/portraits/women/6.jpg'),
+(13, 'Andrzej', 'Lis', 'andrzejlis', 'andrzejlis@example.com', 'haslo123', '', '', '1992-09-09', 'https://randomuser.me/api/portraits/men/7.jpg'),
+(14, 'Joanna', 'Wójcik', 'joannawojcik', 'joannawojcik@example.com', 'haslo123', '', '', '1994-02-12', 'https://randomuser.me/api/portraits/women/7.jpg'),
+(15, 'Marcin', 'Jabłoński', 'marcinjablonski', 'marcinjablonski@example.com', 'haslo123', '', '', '1983-06-02', 'https://randomuser.me/api/portraits/men/8.jpg'),
+(16, 'Olga', 'Maciąg', 'olgamaciag', 'olgamaciag@example.com', 'haslo123', '', '', '1996-12-13', 'https://randomuser.me/api/portraits/women/8.jpg'),
+(17, 'Krzysztof', 'Kwiatkowski', 'krzysztofkwiatkowski', 'krzysztofkwiatkowski@example.com', 'haslo123', '', '', '1987-11-10', 'https://randomuser.me/api/portraits/men/9.jpg'),
+(18, 'Julia', 'Nowakowska', 'julianowakowska', 'julianowakowska@example.com', 'haslo123', '', '', '1991-04-08', 'https://randomuser.me/api/portraits/women/9.jpg'),
+(19, 'Szymon', 'Stolarz', 'szymonstolarz', 'szymonstolarz@example.com', 'haslo123', '', '', '1993-08-14', 'https://randomuser.me/api/portraits/men/10.jpg'),
+(20, 'Wiktoria', 'Krawczyk', 'wiktoriakrawczyk', 'wiktoriakrawczyk@example.com', 'haslo123', '', '', '1990-05-30', 'https://randomuser.me/api/portraits/women/10.jpg'),
+(21, 'test', 'test', 'test_test', 'test@wp.pl', '$2y$10$kLHXBJhEhTe/SmFGsa6hKeXRbyk5OxWOttjl27KixKT1U6MGeLyv6', '', '', NULL, NULL),
+(22, 'lemi', 'sjhfdaisp', 'lemi_sjhfdaisp', 'Lemi@pocztra', '$2y$10$bb2Uj6xv2cRmLa/eCMkZqeaQXM27N2xDOA4QhF1rQnZvFzw6cZegW', '', '', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -814,10 +829,10 @@ CREATE TABLE `wiadomosci` (
   `Tresc` varchar(255) NOT NULL,
   `Wyslano` timestamp NOT NULL DEFAULT current_timestamp(),
   `Przeczytano` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `wiadomosci`
+-- Zrzut danych tabeli `wiadomosci`
 --
 
 INSERT INTO `wiadomosci` (`ID_wiadomosci`, `ID_wysylajacego`, `ID_rozmowy`, `Tresc`, `Wyslano`, `Przeczytano`) VALUES
@@ -846,7 +861,7 @@ INSERT INTO `wiadomosci` (`ID_wiadomosci`, `ID_wysylajacego`, `ID_rozmowy`, `Tre
 
 --
 -- Zastąpiona struktura widoku `wiadomosci_niewyslane`
--- (See below for the actual view)
+-- (Zobacz poniżej rzeczywisty widok)
 --
 CREATE TABLE `wiadomosci_niewyslane` (
 `ID_wiadomosci` int(11)
@@ -862,7 +877,7 @@ CREATE TABLE `wiadomosci_niewyslane` (
 
 --
 -- Zastąpiona struktura widoku `widok_top_10_posty`
--- (See below for the actual view)
+-- (Zobacz poniżej rzeczywisty widok)
 --
 CREATE TABLE `widok_top_10_posty` (
 `ID_postu` int(11)
@@ -879,7 +894,7 @@ CREATE TABLE `widok_top_10_posty` (
 
 --
 -- Zastąpiona struktura widoku `znaj`
--- (See below for the actual view)
+-- (Zobacz poniżej rzeczywisty widok)
 --
 CREATE TABLE `znaj` (
 `ID_uzytkownika` int(11)
@@ -902,10 +917,10 @@ CREATE TABLE `znajomi` (
   `ID_znajomego2` int(11) NOT NULL,
   `Status_znajomosci` enum('zatwierdzona','oczekująca','','') NOT NULL,
   `Poczatek_znajomosci` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `znajomi`
+-- Zrzut danych tabeli `znajomi`
 --
 
 INSERT INTO `znajomi` (`ID_znajomego1`, `ID_znajomego2`, `Status_znajomosci`, `Poczatek_znajomosci`) VALUES
@@ -937,7 +952,7 @@ INSERT INTO `znajomi` (`ID_znajomego1`, `ID_znajomego2`, `Status_znajomosci`, `P
 --
 DROP TABLE IF EXISTS `5_uzytkow_z_najwieksza_iloscia_obserwacji`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `5_uzytkow_z_najwieksza_iloscia_obserwacji`  AS SELECT `uzy`.`ID_uzytkownika` AS `ID_uzytkownika`, `uzy`.`Imie` AS `Imie`, `uzy`.`Nazwisko` AS `Nazwisko`, `uzy`.`Nick` AS `Nick`, count(`obser`.`ID_obserwujacego`) AS `Liczba_Obserwujacych` FROM (`uzytkownicy` `uzy` join `obserwujacy` `obser` on(`uzy`.`ID_uzytkownika` = `obser`.`ID_obserwowanego`)) GROUP BY `uzy`.`ID_uzytkownika` ORDER BY count(`obser`.`ID_obserwujacego`) DESC LIMIT 0, 5 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `5_uzytkow_z_najwieksza_iloscia_obserwacji`  AS SELECT `uzy`.`ID_uzytkownika` AS `ID_uzytkownika`, `uzy`.`Imie` AS `Imie`, `uzy`.`Nazwisko` AS `Nazwisko`, `uzy`.`Nick` AS `Nick`, count(`obser`.`ID_obserwujacego`) AS `Liczba_Obserwujacych` FROM (`uzytkownicy` `uzy` join `obserwujacy` `obser` on(`uzy`.`ID_uzytkownika` = `obser`.`ID_obserwowanego`)) GROUP BY `uzy`.`ID_uzytkownika` ORDER BY count(`obser`.`ID_obserwujacego`) DESC LIMIT 0, 55  ;
 
 -- --------------------------------------------------------
 
@@ -946,7 +961,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `aktywnosc_uzytkownikow`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `aktywnosc_uzytkownikow`  AS SELECT `user`.`ID_uzytkownika` AS `ID_uzytkownika`, `user`.`Imie` AS `Imie`, `user`.`Nazwisko` AS `Nazwisko`, `user`.`Nick` AS `Nick`, coalesce(count(distinct `posts`.`ID_postu`),0) AS `Liczba_Postow`, coalesce(count(distinct `comms`.`ID_komentarza`),0) AS `Liczba_Komentarzy`, coalesce(count(distinct `films`.`ID_filmu`),0) AS `Liczba_Filmow`, coalesce(count(distinct `msgs`.`ID_wiadomosci`),0) AS `Liczba_Wiadomosci` FROM ((((`uzytkownicy` `user` left join `posty` `posts` on(`user`.`ID_uzytkownika` = `posts`.`ID_uzytkownika`)) left join `komentarze` `comms` on(`user`.`ID_uzytkownika` = `comms`.`ID_uzytkownika`)) left join `filmiki` `films` on(`user`.`ID_uzytkownika` = `films`.`ID_uzytkownika`)) left join `wiadomosci` `msgs` on(`user`.`ID_uzytkownika` = `msgs`.`ID_wysylajacego`)) GROUP BY `user`.`ID_uzytkownika` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `aktywnosc_uzytkownikow`  AS SELECT `user`.`ID_uzytkownika` AS `ID_uzytkownika`, `user`.`Imie` AS `Imie`, `user`.`Nazwisko` AS `Nazwisko`, `user`.`Nick` AS `Nick`, coalesce(count(distinct `posts`.`ID_postu`),0) AS `Liczba_Postow`, coalesce(count(distinct `comms`.`ID_komentarza`),0) AS `Liczba_Komentarzy`, coalesce(count(distinct `films`.`ID_filmu`),0) AS `Liczba_Filmow`, coalesce(count(distinct `msgs`.`ID_wiadomosci`),0) AS `Liczba_Wiadomosci` FROM ((((`uzytkownicy` `user` left join `posty` `posts` on(`user`.`ID_uzytkownika` = `posts`.`ID_uzytkownika`)) left join `komentarze` `comms` on(`user`.`ID_uzytkownika` = `comms`.`ID_uzytkownika`)) left join `filmiki` `films` on(`user`.`ID_uzytkownika` = `films`.`ID_uzytkownika`)) left join `wiadomosci` `msgs` on(`user`.`ID_uzytkownika` = `msgs`.`ID_wysylajacego`)) GROUP BY `user`.`ID_uzytkownika``ID_uzytkownika`  ;
 
 -- --------------------------------------------------------
 
@@ -955,7 +970,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `komentarze_z_postami`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `komentarze_z_postami`  AS SELECT `comms`.`ID_komentarza` AS `ID_komentarza`, `comms`.`Tresc` AS `Komentarz`, `comms`.`Ilosc_polubien` AS `Komentarz_Polubienia`, `posts`.`Tytul` AS `Post_Tytul`, `posts`.`Tresc` AS `Post_Tresc`, `posts`.`Ilosc_polubien` AS `Post_Polubienia`, `user1`.`Imie` AS `Komentujacy_Imie`, `user1`.`Nazwisko` AS `Komentujacy_Nazwisko`, `user2`.`Imie` AS `Autor_Postu_Imie`, `user2`.`Nazwisko` AS `Autor_Postu_Nazwisko` FROM (((`komentarze` `comms` join `posty` `posts` on(`comms`.`ID_postu` = `posts`.`ID_postu`)) join `uzytkownicy` `user1` on(`comms`.`ID_uzytkownika` = `user1`.`ID_uzytkownika`)) join `uzytkownicy` `user2` on(`posts`.`ID_uzytkownika` = `user2`.`ID_uzytkownika`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `komentarze_z_postami`  AS SELECT `comms`.`ID_komentarza` AS `ID_komentarza`, `comms`.`Tresc` AS `Komentarz`, `comms`.`Ilosc_polubien` AS `Komentarz_Polubienia`, `posts`.`Tytul` AS `Post_Tytul`, `posts`.`Tresc` AS `Post_Tresc`, `posts`.`Ilosc_polubien` AS `Post_Polubienia`, `user1`.`Imie` AS `Komentujacy_Imie`, `user1`.`Nazwisko` AS `Komentujacy_Nazwisko`, `user2`.`Imie` AS `Autor_Postu_Imie`, `user2`.`Nazwisko` AS `Autor_Postu_Nazwisko` FROM (((`komentarze` `comms` join `posty` `posts` on(`comms`.`ID_postu` = `posts`.`ID_postu`)) join `uzytkownicy` `user1` on(`comms`.`ID_uzytkownika` = `user1`.`ID_uzytkownika`)) join `uzytkownicy` `user2` on(`posts`.`ID_uzytkownika` = `user2`.`ID_uzytkownika`))  ;
 
 -- --------------------------------------------------------
 
@@ -964,7 +979,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `najbardziej_polubiane_komentarze`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `najbardziej_polubiane_komentarze`  AS SELECT `kom`.`ID_komentarza` AS `ID_komentarza`, `kom`.`Tresc` AS `Komentarz_Tresc`, `kom`.`Ilosc_polubien` AS `Komentarz_Polubienia`, `uzy`.`Imie` AS `Komentujacy_Imie`, `uzy`.`Nazwisko` AS `Komentujacy_Nazwisko`, `pos`.`Tytul` AS `Post_Tytul`, `pos`.`Tresc` AS `Post_Tresc`, `pos`.`Ilosc_polubien` AS `Post_Polubienia`, `kom`.`Data_publikacji` AS `Komentarz_Data_Publikacji` FROM ((`komentarze` `kom` join `uzytkownicy` `uzy` on(`kom`.`ID_uzytkownika` = `uzy`.`ID_uzytkownika`)) join `posty` `pos` on(`kom`.`ID_postu` = `pos`.`ID_postu`)) ORDER BY `kom`.`Ilosc_polubien` DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `najbardziej_polubiane_komentarze`  AS SELECT `kom`.`ID_komentarza` AS `ID_komentarza`, `kom`.`Tresc` AS `Komentarz_Tresc`, `kom`.`Ilosc_polubien` AS `Komentarz_Polubienia`, `uzy`.`Imie` AS `Komentujacy_Imie`, `uzy`.`Nazwisko` AS `Komentujacy_Nazwisko`, `pos`.`Tytul` AS `Post_Tytul`, `pos`.`Tresc` AS `Post_Tresc`, `pos`.`Ilosc_polubien` AS `Post_Polubienia`, `kom`.`Data_publikacji` AS `Komentarz_Data_Publikacji` FROM ((`komentarze` `kom` join `uzytkownicy` `uzy` on(`kom`.`ID_uzytkownika` = `uzy`.`ID_uzytkownika`)) join `posty` `pos` on(`kom`.`ID_postu` = `pos`.`ID_postu`)) ORDER BY `kom`.`Ilosc_polubien` AS `DESCdesc` ASC  ;
 
 -- --------------------------------------------------------
 
@@ -973,7 +988,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `najwiecej_hasztagow`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `najwiecej_hasztagow`  AS SELECT `p`.`Hasztagi` AS `Hasztagi`, count(`p`.`ID_postu`) AS `liczba_postow` FROM `posty` AS `p` GROUP BY `p`.`Hasztagi` ORDER BY count(`p`.`ID_postu`) DESC LIMIT 0, 5 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `najwiecej_hasztagow`  AS SELECT `p`.`Hasztagi` AS `Hasztagi`, count(`p`.`ID_postu`) AS `liczba_postow` FROM `posty` AS `p` GROUP BY `p`.`Hasztagi` ORDER BY count(`p`.`ID_postu`) DESC LIMIT 0, 55  ;
 
 -- --------------------------------------------------------
 
@@ -982,7 +997,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `wiadomosci_niewyslane`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `wiadomosci_niewyslane`  AS SELECT `wiadomosc`.`ID_wiadomosci` AS `ID_wiadomosci`, `wiadomosc`.`Tresc` AS `Tresc`, `wiadomosc`.`Wyslano` AS `Wyslano`, `wiadomosc`.`Przeczytano` AS `Przeczytano`, `uzytkownik`.`Imie` AS `Imie`, `uzytkownik`.`Nazwisko` AS `Nazwisko`, `rozmowa`.`Nazwa_rozmowy` AS `Nazwa_rozmowy` FROM ((`wiadomosci` `wiadomosc` join `uzytkownicy` `uzytkownik` on(`wiadomosc`.`ID_wysylajacego` = `uzytkownik`.`ID_uzytkownika`)) join `rozmowy` `rozmowa` on(`wiadomosc`.`ID_rozmowy` = `rozmowa`.`ID_rozmowy`)) WHERE `wiadomosc`.`Przeczytano` = 0 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `wiadomosci_niewyslane`  AS SELECT `wiadomosc`.`ID_wiadomosci` AS `ID_wiadomosci`, `wiadomosc`.`Tresc` AS `Tresc`, `wiadomosc`.`Wyslano` AS `Wyslano`, `wiadomosc`.`Przeczytano` AS `Przeczytano`, `uzytkownik`.`Imie` AS `Imie`, `uzytkownik`.`Nazwisko` AS `Nazwisko`, `rozmowa`.`Nazwa_rozmowy` AS `Nazwa_rozmowy` FROM ((`wiadomosci` `wiadomosc` join `uzytkownicy` `uzytkownik` on(`wiadomosc`.`ID_wysylajacego` = `uzytkownik`.`ID_uzytkownika`)) join `rozmowy` `rozmowa` on(`wiadomosc`.`ID_rozmowy` = `rozmowa`.`ID_rozmowy`)) WHERE `wiadomosc`.`Przeczytano` = 00  ;
 
 -- --------------------------------------------------------
 
@@ -991,7 +1006,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `widok_top_10_posty`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `widok_top_10_posty`  AS SELECT `p`.`ID_postu` AS `ID_postu`, `p`.`Tytul` AS `Tytul`, `p`.`Tresc` AS `Tresc`, `p`.`Ilosc_polubien` AS `Ilosc_polubien`, `p`.`Data_publikacji` AS `Data_publikacji`, `u`.`Imie` AS `Imie`, `u`.`Nazwisko` AS `Nazwisko`, `u`.`Nick` AS `Nick` FROM (`posty` `p` join `uzytkownicy` `u` on(`p`.`ID_uzytkownika` = `u`.`ID_uzytkownika`)) ORDER BY `p`.`Ilosc_polubien` DESC LIMIT 0, 10 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `widok_top_10_posty`  AS SELECT `p`.`ID_postu` AS `ID_postu`, `p`.`Tytul` AS `Tytul`, `p`.`Tresc` AS `Tresc`, `p`.`Ilosc_polubien` AS `Ilosc_polubien`, `p`.`Data_publikacji` AS `Data_publikacji`, `u`.`Imie` AS `Imie`, `u`.`Nazwisko` AS `Nazwisko`, `u`.`Nick` AS `Nick` FROM (`posty` `p` join `uzytkownicy` `u` on(`p`.`ID_uzytkownika` = `u`.`ID_uzytkownika`)) ORDER BY `p`.`Ilosc_polubien` DESC LIMIT 0, 1010  ;
 
 -- --------------------------------------------------------
 
@@ -1000,7 +1015,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `znaj`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `znaj`  AS SELECT `znajomy`.`ID_znajomego1` AS `ID_uzytkownika`, `uzytkownik1`.`Imie` AS `Imie_uzytkownika`, `uzytkownik1`.`Nazwisko` AS `Nazwisko_uzytkownika`, `znajomy`.`Status_znajomosci` AS `Status_znajomosci`, `znajomy`.`Poczatek_znajomosci` AS `Poczatek_znajomosci`, `uzytkownik2`.`Imie` AS `Imie_znajomego`, `uzytkownik2`.`Nazwisko` AS `Nazwisko_znajomego` FROM ((`znajomi` `znajomy` join `uzytkownicy` `uzytkownik1` on(`znajomy`.`ID_znajomego1` = `uzytkownik1`.`ID_uzytkownika`)) join `uzytkownicy` `uzytkownik2` on(`znajomy`.`ID_znajomego2` = `uzytkownik2`.`ID_uzytkownika`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `znaj`  AS SELECT `znajomy`.`ID_znajomego1` AS `ID_uzytkownika`, `uzytkownik1`.`Imie` AS `Imie_uzytkownika`, `uzytkownik1`.`Nazwisko` AS `Nazwisko_uzytkownika`, `znajomy`.`Status_znajomosci` AS `Status_znajomosci`, `znajomy`.`Poczatek_znajomosci` AS `Poczatek_znajomosci`, `uzytkownik2`.`Imie` AS `Imie_znajomego`, `uzytkownik2`.`Nazwisko` AS `Nazwisko_znajomego` FROM ((`znajomi` `znajomy` join `uzytkownicy` `uzytkownik1` on(`znajomy`.`ID_znajomego1` = `uzytkownik1`.`ID_uzytkownika`)) join `uzytkownicy` `uzytkownik2` on(`znajomy`.`ID_znajomego2` = `uzytkownik2`.`ID_uzytkownika`))  ;
 
 --
 -- Indeksy dla zrzutów tabel
@@ -1064,88 +1079,88 @@ ALTER TABLE `znajomi`
   ADD KEY `id_znajomego2` (`ID_znajomego2`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT dla zrzuconych tabel
 --
 
 --
--- AUTO_INCREMENT for table `filmiki`
+-- AUTO_INCREMENT dla tabeli `filmiki`
 --
 ALTER TABLE `filmiki`
-  MODIFY `ID_filmu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=506;
+  MODIFY `ID_filmu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=510;
 
 --
--- AUTO_INCREMENT for table `komentarze`
+-- AUTO_INCREMENT dla tabeli `komentarze`
 --
 ALTER TABLE `komentarze`
-  MODIFY `ID_komentarza` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=531;
+  MODIFY `ID_komentarza` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=539;
 
 --
--- AUTO_INCREMENT for table `posty`
+-- AUTO_INCREMENT dla tabeli `posty`
 --
 ALTER TABLE `posty`
-  MODIFY `ID_postu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=521;
+  MODIFY `ID_postu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=531;
 
 --
--- AUTO_INCREMENT for table `rozmowy`
+-- AUTO_INCREMENT dla tabeli `rozmowy`
 --
 ALTER TABLE `rozmowy`
   MODIFY `ID_rozmowy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=501;
 
 --
--- AUTO_INCREMENT for table `uzytkownicy`
+-- AUTO_INCREMENT dla tabeli `uzytkownicy`
 --
 ALTER TABLE `uzytkownicy`
-  MODIFY `ID_uzytkownika` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID_uzytkownika` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT for table `wiadomosci`
+-- AUTO_INCREMENT dla tabeli `wiadomosci`
 --
 ALTER TABLE `wiadomosci`
   MODIFY `ID_wiadomosci` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=521;
 
 --
--- Constraints for dumped tables
+-- Ograniczenia dla zrzutów tabel
 --
 
 --
--- Constraints for table `filmiki`
+-- Ograniczenia dla tabeli `filmiki`
 --
 ALTER TABLE `filmiki`
-  ADD CONSTRAINT `filmiki_ibfk_1` FOREIGN KEY (`id_uzytkownika`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
+  ADD CONSTRAINT `filmiki_ibfk_1` FOREIGN KEY (`ID_uzytkownika`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
 
 --
--- Constraints for table `komentarze`
+-- Ograniczenia dla tabeli `komentarze`
 --
 ALTER TABLE `komentarze`
-  ADD CONSTRAINT `komentarze_ibfk_1` FOREIGN KEY (`id_postu`) REFERENCES `posty` (`ID_postu`) ON DELETE CASCADE,
-  ADD CONSTRAINT `komentarze_ibfk_2` FOREIGN KEY (`id_uzytkownika`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
+  ADD CONSTRAINT `komentarze_ibfk_1` FOREIGN KEY (`ID_postu`) REFERENCES `posty` (`ID_postu`) ON DELETE CASCADE,
+  ADD CONSTRAINT `komentarze_ibfk_2` FOREIGN KEY (`ID_uzytkownika`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
 
 --
--- Constraints for table `obserwujacy`
+-- Ograniczenia dla tabeli `obserwujacy`
 --
 ALTER TABLE `obserwujacy`
-  ADD CONSTRAINT `obserwujacy_ibfk_1` FOREIGN KEY (`id_obserwujacego`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE,
-  ADD CONSTRAINT `obserwujacy_ibfk_2` FOREIGN KEY (`id_obserwowanego`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
+  ADD CONSTRAINT `obserwujacy_ibfk_1` FOREIGN KEY (`ID_obserwujacego`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE,
+  ADD CONSTRAINT `obserwujacy_ibfk_2` FOREIGN KEY (`ID_obserwowanego`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
 
 --
--- Constraints for table `posty`
+-- Ograniczenia dla tabeli `posty`
 --
 ALTER TABLE `posty`
   ADD CONSTRAINT `posty_ibfk_1` FOREIGN KEY (`ID_uzytkownika`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
 
 --
--- Constraints for table `wiadomosci`
+-- Ograniczenia dla tabeli `wiadomosci`
 --
 ALTER TABLE `wiadomosci`
-  ADD CONSTRAINT `wiadomosci_ibfk_1` FOREIGN KEY (`id_wysylajacego`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE,
-  ADD CONSTRAINT `wiadomosci_ibfk_2` FOREIGN KEY (`id_rozmowy`) REFERENCES `rozmowy` (`id_rozmowy`) ON DELETE CASCADE;
+  ADD CONSTRAINT `wiadomosci_ibfk_1` FOREIGN KEY (`ID_wysylajacego`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE,
+  ADD CONSTRAINT `wiadomosci_ibfk_2` FOREIGN KEY (`ID_rozmowy`) REFERENCES `rozmowy` (`ID_rozmowy`) ON DELETE CASCADE;
 
 --
--- Constraints for table `znajomi`
+-- Ograniczenia dla tabeli `znajomi`
 --
 ALTER TABLE `znajomi`
-  ADD CONSTRAINT `znajomi_ibfk_1` FOREIGN KEY (`id_znajomego1`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE,
-  ADD CONSTRAINT `znajomi_ibfk_2` FOREIGN KEY (`id_znajomego2`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
+  ADD CONSTRAINT `znajomi_ibfk_1` FOREIGN KEY (`ID_znajomego1`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE,
+  ADD CONSTRAINT `znajomi_ibfk_2` FOREIGN KEY (`ID_znajomego2`) REFERENCES `uzytkownicy` (`ID_uzytkownika`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
