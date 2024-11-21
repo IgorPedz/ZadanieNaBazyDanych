@@ -5,6 +5,8 @@ import $ from 'jquery';
 import { useNavigate } from 'react-router-dom'; 
 import { useUser } from '../../context/UserContext'
 import { Helmet } from 'react-helmet';
+import File from '../FileUpload/FileUpload'
+import Cookies from 'js-cookie'
 
 const Form = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -19,9 +21,11 @@ const Form = () => {
   const [showResetModal, setShowResetModal] = useState(false); 
   const [resetEmail, setResetEmail] = useState('');
   const [setResetSuccess] = useState(false);
+  const [visitCount, setVisitCount] = useState(0); // Licznik wizyt
 
   const { login } = useUser();
-
+  window.history.pushState(null, '', window.location.href);
+  window.history.replaceState(null, '', window.location.href);
   const navigate = useNavigate();
 
   const toggleForm = () => {
@@ -68,7 +72,15 @@ const Form = () => {
           setError(''); 
           console.log(response)
           if (isLogin) {
-            login({ username: response.username.Imie, email: response.email });
+            let currentVisitCount = Cookies.get('visitCount');
+            currentVisitCount = currentVisitCount ? parseInt(currentVisitCount) : 0;
+
+            currentVisitCount += 1;
+
+            Cookies.set('visitCount', currentVisitCount, { expires: 365 });
+
+            setVisitCount(currentVisitCount);
+            login({ username: response.username.Imie, nick: response.username.Nick, id: response.username.ID_uzytkownika});
             navigate('/dashboard'); 
           }
         }
@@ -140,101 +152,112 @@ const Form = () => {
           onClick={toggleForm}
         >
           Rejestracja
+          
         </button>
       </div>
-
+      {isLogin ? (<></>):(<><File/></>)}
       <div className={`form-content ${isLogin ? 'form-show-login' : 'form-show-register'}`}>
-        <h2>{isLogin ? 'Logowanie' : 'Rejestracja'}</h2>
-        <form onSubmit={handleSubmit}>
-          {isLogin ? (
-            <>
-              <div className="form-group">
-                <label htmlFor="email">E-mail</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Hasło</label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="forgot-div">
-                <button type="button" className="forgot-password" onClick={() => setShowResetModal(true)}>
-                  Zapomniałeś hasła?
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="form-group">
-                <label htmlFor="username">Imię</label>
-                <input
-                  type="text"
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="surrname">Nazwisko</label>
-                <input
-                  type="text"
-                  id="surrname"
-                  value={surrname}
-                  onChange={(e) => setSurrname(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Adres e-mail</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Hasło</label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="confirmPassword">Powtórz hasło</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-              </div>
-            </>
-          )}
-          <button
-            type="submit"
-            className="form-submit"
-            disabled={!email || !password || (!isLogin && !confirmPassword)}
-          >
-            {isLogin ? 'Zaloguj się' : 'Zarejestruj się'}
+  <h2>{isLogin ? 'Logowanie' : 'Rejestracja' }</h2>
+  <form onSubmit={handleSubmit}>
+    {isLogin ? (
+      <>   
+        <div className="form-group">
+          <label htmlFor="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Hasło</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="forgot-div">
+          <button type="button" className="forgot-password" onClick={() => setShowResetModal(true)}>
+            Zapomniałeś hasła?
           </button>
-        </form>
-      </div>
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="form-group">
+          <label htmlFor="username">Imię</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="surrname">Nazwisko</label>
+          <input
+            type="text"
+            id="surrname"
+            value={surrname}
+            onChange={(e) => setSurrname(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Adres e-mail</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Hasło</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Powtórz hasło</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
+      </>
+    )}
+
+    {/* Przycisk formularza */}
+    <button
+      type="submit"
+      className="form-submit"
+      disabled={
+        !email || 
+        !password || 
+        (!isLogin && (!confirmPassword || password !== confirmPassword)) // Sprawdzanie, czy hasła się zgadzają przy rejestracji
+      }
+    >
+      {isLogin ? 'Zaloguj się' : 'Zarejestruj się'}
+    </button>
+    
+  </form>
+</div>
+
 
       {showModal && <Modal message={error || successMessage} closeModal={closeModal} />}
 

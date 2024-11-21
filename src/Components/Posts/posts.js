@@ -1,48 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '../../context/UserContext'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/free-solid-svg-icons';
+import ProfIMG from '../../Components/FileDownload/FileDownload'
 import './posts.css';
 
-const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
-  const { user } = useUser();
+const PostFeed = ({ID, handleAdditionalActions, onHashtagClick }) => {
+  const { user } = useUser(); // Pobieranie użytkownika z kontekstu
   const [newPost, setNewPost] = useState({
     title: '',
     content: '',
     hashtags: [],
   });
 
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      username: 'Jan Kowalski',
-      nickname: 'Kowal',
-      content: 'Witajcie na moim profilu!',
-      title: 'Pierwszy post!',
-      hashtags: ['#hello', '#welcome', '#firstPost', '#new', '#socialMedia'],
-      comments: ['Pierwszy komentarz!', 'Super post!', 'Witaj!'],
-      likeCount: 10,
-      liked: false,
-      publishedAt: new Date('2024-10-01T12:30:00'), // Dodanie daty publikacji
-    },
-    {
-      id: 2,
-      username: 'Anna Nowak',
-      nickname: 'Nowakowa',
-      content: 'Co słychać, Twitterze?',
-      title: 'Kolejny post!',
-      hashtags: ['#whatIsUp', '#Twitter', '#community', '#chat', '#online'],
-      comments: ['Hej Anna!', 'Dobrze, a u Ciebie?'],
-      likeCount: 5,
-      liked: false,
-      publishedAt: new Date('2024-10-02T08:15:00'), // Dodanie daty publikacji
-    },
-  ]);
-
+  const [posts, setPosts] = useState([]); // Posts from server
   const [showModal, setShowModal] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
-  if (!user) {
-    return <div>Ładowanie użytkownika...</div>; 
-  }
+  // States for loading and error handling  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  // Fetch posts from the server when the component mounts
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('http://localhost/upload.php');
+        if (!response.ok) {
+          throw new Error('Błąd w odpowiedzi serwera');
+        }
+        const data = await response.json();
+      
+        console.log('Otrzymane dane:', data); // Debugging log
+    
+        if (Array.isArray(data)) {
+          setPosts(data); // Update posts
+        } else {
+          console.error('Błąd w danych:', data);
+          setError('Nieprawidłowy format danych.');
+        }
+      } catch (err) {
+        console.error('Błąd podczas pobierania postów:', err);
+        setError('Błąd podczas pobierania postów: ' + (err.message || 'Nieznany błąd'));
+      } finally {
+        setLoading(false); // Stop loading after data fetch
+      }
+    };
+
+    fetchPosts();
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,43 +60,70 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
       [name]: value,
     });
   };
-
-  const handlePublish = () => {
-    if (newPost.title && newPost.content) {
-      const publishDate = new Date(); // Data publikacji na bieżąco
-      if (currentPost) {
-        const updatedPosts = posts.map((post) =>
-          post.id === currentPost.id
-            ? {
-                ...post,
-                title: newPost.title,
-                content: newPost.content,
-                hashtags: newPost.hashtags.split(' '),
-                publishedAt: publishDate, // Zaktualizowanie daty publikacji
-              }
-            : post
-        );
-        setPosts(updatedPosts);
-      } else {
-        const newPostData = {
-          id: posts.length + 1,
-          username: user.username,
-          nickname: 'admin1',
-          title: newPost.title,
-          content: newPost.content,
-          hashtags: newPost.hashtags.split(' '),
-          comments: [],
-          likeCount: 0, 
-          liked: false,
-          publishedAt: publishDate, // Data publikacji
-        };
-        setPosts([newPostData, ...posts]); 
+  const handlePublish = async () => {
+    if (newPost.title && newPost.content && newPost.hashtags && user) {
+      // Tworzymy dane do wysłania
+      const postData = {
+        title: newPost.title,
+        content: newPost.content,
+        hashtags: newPost.hashtags.split(' '), // Zakładając, że hashtagi są rozdzielone spacjami
+        author: user.nick,
+        userID: user.id,
+      };
+  
+      console.log("Dane do wysłania: ", postData); // Upewnij się, że dane są poprawnie utworzone
+  
+      try {
+        const response = await fetch("download.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData), // Zamiana danych na JSON
+        });
+  
+        const result = await response.json();
+        console.log(result); // Zaloguj odpowiedź z serwera
+  
+        if (result.status === "success") {
+          console.log('Post został pomyślnie dodany!');
+  
+          // Natychmiastowe dodanie nowego posta do stanu
+          const newPostObj = {
+            id: result.id, // Przypisanie id, które zwraca serwer
+            title: postData.title,
+            content: postData.content,
+            hashtags: postData.hashtags,
+            author: postData.author,
+            userID: postData.userID,
+            likeCount: 0, // Początkowa liczba polubień
+            liked: false, // Początkowy stan polubienia
+            comments: [],
+            publishedAt: new Date().toISOString(),
+            nickname: postData.author,
+          };
+  
+          // Dodaj post bezpośrednio do stanu
+          setPosts((prevPosts) => [...prevPosts, newPostObj]);
+  
+          // Resetuj formularz po dodaniu
+          setNewPost({
+            title: '',
+            content: '',
+            hashtags: ''
+          });
+        } else {
+          console.error('Błąd podczas dodawania posta:', result.message);
+        }
+      } catch (error) {
+        console.error("Błąd podczas wysyłania:", error);
       }
-      setNewPost({ title: '', content: '', hashtags: '' }); // Reset formularza
-      setCurrentPost(null); // Resetowanie edytowanego posta
+    } else {
+      console.error("Brak wymaganych danych.");
     }
   };
-
+  
+  
   const handleLikeClick = (postId) => {
     setPosts(
       posts.map((post) => {
@@ -112,38 +148,114 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
 
   const handleEditPost = (postId) => {
     const postToEdit = posts.find((post) => post.id === postId);
-    setNewPost({
-      title: postToEdit.title,
-      content: postToEdit.content,
-      hashtags: postToEdit.hashtags.join(' '), // Przekształcenie tablicy hashtagów w string
-    });
-    setCurrentPost(postToEdit); // Ustawiamy post do edycji
+    if (postToEdit) {
+      setNewPost({
+        title: postToEdit.title,
+        content: postToEdit.content,
+        hashtags: postToEdit.hashtags.join(' '), // Jeśli hashtagi są tablicą, łączymy je w stringa
+      });
+      setCurrentPost(postToEdit);
+      setIsEditing(true); // Ustawiamy, że teraz edytujemy post
+    }
+  };
+  const handleSaveChanges = async () => {
+    if (newPost.title && newPost.content && newPost.hashtags) {
+      try {
+        const response = await fetch('edit.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            postId: currentPost.id, // ID posta, który edytujemy
+            title: newPost.title,
+            content: newPost.content,
+            hashtags: newPost.hashtags,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          setPosts(posts.map((post) => 
+            post.id === currentPost.id 
+              ? { ...post, title: newPost.title, content: newPost.content, hashtags: newPost.hashtags.split(' ') }
+              : post
+          ));
+          setIsEditing(false); // Zakończono edycję
+          setCurrentPost(null); // Resetujemy aktualny post
+          setNewPost({ title: '', content: '', hashtags: '' });
+        } else {
+          console.error('Błąd podczas edytowania posta: ', data.message);
+        }
+      } catch (error) {
+        console.error('Błąd podczas wysyłania zapytania do backendu: ', error);
+      }
+    } else {
+      console.error("Wszystkie pola muszą być wypełnione.");
+    }
   };
 
-  const handleDeletePost = (postId) => {
-    setPosts(posts.filter((post) => post.id !== postId));
+  const handleDeletePost = async (postId) => {
+    try {
+      // Wyślij żądanie do backendu w celu usunięcia posta
+      const response = await fetch('delete.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ postId }), // Przekazujesz id posta
+      });
+  
+      // Logowanie odpowiedzi w celu sprawdzenia, co zwraca serwer
+      const text = await response.text(); // Pobieramy odpowiedź jako tekst
+      console.log(text);  // Logujemy odpowiedź, żeby zobaczyć, co zwraca serwer
+      
+      // Jeśli odpowiedź jest w formacie JSON, zamień ją na obiekt
+      const data = JSON.parse(text); // Parsowanie odpowiedzi do JSON
+  
+      console.log(data);  // Sprawdzamy zawartość odpowiedzi
+  
+      if (data.status === 'success') {
+        // Jeśli usunięcie powiodło się, zaktualizuj stan aplikacji
+        setPosts(posts.filter((post) => post.id !== postId));
+      } else {
+        console.error('Błąd podczas usuwania posta: ', data.message);
+      }
+    } catch (error) {
+      console.error('Błąd podczas wysyłania zapytania: ', error);
+    }
   };
+  
 
-  // Formatowanie daty (np. "1 października 2024, 12:30")
   const formatDate = (date) => {
+    const validDate = new Date(date);
+  
+    // Check if the date is valid
+    if (isNaN(validDate)) {
+      return 'Niepoprawna data';
+    }
+  
     return new Intl.DateTimeFormat('pl-PL', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-    }).format(date);
+    }).format(validDate);
   };
+
+  // Check if user is available before rendering
+  if (!user) {
+    return <div>Ładowanie użytkownika...</div>;
+  }
 
   return (
     <div className="postfeed">
+      {/* New post form */}
       <div className="post new-post">
         <div className="post-header">
-          <img
-            src={`https://i.pravatar.cc/150?img=0`}
-            alt="User"
-            className="post-avatar"
-          />
+          <ProfIMG userId={user.id}/>
           <div className="post-info">
             <input
               type="text"
@@ -173,97 +285,31 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
           className="new-post-hashtags"
         />
 
-        <button onClick={handlePublish} className="publish-button">
-          {currentPost ? 'Zapisz zmiany' : 'Opublikuj'}
-        </button>
+      <button 
+        onClick={currentPost ? handleSaveChanges : handlePublish} 
+        className="publish-button"
+      >
+        {currentPost ? 'Zapisz zmiany' : 'Opublikuj'}
+      </button>
       </div>
 
-      {posts.map((post) => (
-        <div key={post.id} className="post">
-          <div className="post-header">
-            <img
-              src={`https://i.pravatar.cc/150?img=${post.id}`}
-              alt="User"
-              className="post-avatar"
-            />
-            <div className="post-info">
-              <span
-                className="post-username"
-                style={{ cursor: 'pointer', color: '#1d9bf0' }}
-                onClick={() => handleAdditionalActions(post.username)}
-              >
-                {post.username}
-                <span className="post-nickname">@{post.nickname}</span>
-              </span>
-              <h2 className="post-title">{post.title}</h2>
-              {/* Dodanie daty publikacji */}
-              <span className="post-date">{formatDate(post.publishedAt)}</span>
-            </div>
-          </div>
-
-          <p className="post-content">{post.content}</p>
-
-          <div className="post-actions">
-            <button
-              className="like-button"
-              onClick={() => handleLikeClick(post.id)}
-              aria-label="Like"
-            >
-              {post.liked ? (
-                <span role="img" aria-label="filled-heart">❤️</span>
-              ) : (
-                <span role="img" aria-label="empty-heart">🤍</span>
-              )}
-              <span className="like-count"> {post.likeCount}</span>
-            </button>
-            <span
-              className="comment-count"
-              onClick={() => handleShowComments(post)}
-            >
-              💬{post.comments.length}
-            </span>
-
-            {user.username === post.username && (
-              <div className="post-actions-extra">
-                <button onClick={() => handleEditPost(post.id)} className="edit-button">
-                  Edytuj
-                </button>
-                <button onClick={() => handleDeletePost(post.id)} className="del-button">
-                  Usuń
-                </button>
-              </div>
-            )}
-          </div>
-
-          <div className="post-hashtags">
-            {post.hashtags.map((hashtag, index) => (
-              <span
-                key={index}
-                onClick={() => onHashtagClick(hashtag)} 
-                className="hashtag"
-              >
-                {hashtag}
-              </span>
-            ))}
-          </div>
-
-        </div>
-      ))}
-
+      {/* Modal for comments */}
       {showModal && currentPost && (
         <div className="modal-overlay">
           <div className="modal">
             <h1>Komentarze</h1>
             <div className="modal-comments">
-              {currentPost.comments.length === 0 ? (
-                <p>Brak komentarzy.</p>
-              ) : (
+              {Array.isArray(currentPost.comments) && currentPost.comments.length > 0 ? (
                 currentPost.comments.map((comment, index) => (
-                  <p className="comment" key={index}>
-                    {comment}
+                  <div className="comment" key={index}>
+                    <p><strong>{comment.author}</strong> mówi:</p>
+                    <p>{comment.content}</p>
                     <span className="likes-count"> ❤️10</span>
-                  </p>
+                    <p><small>{comment.publishedAt}</small></p>
+                  </div>
                 ))
+              ) : (
+                <p>Brak komentarzy.</p>
               )}
             </div>
             <button className="close-modal" onClick={closeModal}>
@@ -271,6 +317,66 @@ const PostFeed = ({ handleAdditionalActions , onHashtagClick}) => {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Render posts */}
+      {posts && posts.length > 0 ? (
+        posts.map((post) => (
+          <div key={post.id} className="post">
+            <div className="post-header">
+          <ProfIMG userId = {post.userId}/>
+              <div className="post-info">
+                <div>
+                <span onClick={() => handleAdditionalActions(post.nickname)} className="post-username">
+                  {post.author}
+                </span>
+                <span className="post-nickname">
+                  @{post.nickname}
+                </span>
+                </div>
+                <span className="post-date">
+                  {formatDate(post.publishedAt)}
+                </span>
+              </div>
+            </div>
+            <span className='post-title'>{post.title}</span>
+            <div className="post-content">{post.content}</div>
+            <div className="post-footer">
+            <div className='post-hashtags'>
+            {Array.isArray(post.hashtags) && post.hashtags.length > 0 ? (
+  post.hashtags.map((hashtag, index) => (
+    <span onClick={() => onHashtagClick(hashtag)} className="hashtag" key={index}>
+      <strong>{hashtag}</strong>
+    </span>
+  ))
+) : (
+  <p>Brak hasztagów.</p>
+)}
+          </div>
+          <div>
+            <button className='like-button' onClick={() => handleLikeClick(post.id)}>
+  {post.liked ? '❤️' : '🤍'} 
+</button>
+<span>
+  {post.likeCount} 
+</span>
+
+<button className='comment-button' onClick={() => handleShowComments(post)}>
+  <FontAwesomeIcon icon={faComment} /><span className='comment-count'>{post.comments.length}</span>
+</button>
+</div>
+</div>
+              {(post.nickname.trim() === user.nick.replace('_', '').trim()) && (
+                <div>
+                  <button className='edt-button' onClick={() => handleEditPost(post.id)}>Edytuj</button>
+                  <button className='del-button' onClick={() => handleDeletePost(post.id)}>Usuń</button>
+                </div>
+              )}
+
+          </div>
+        ))
+      ) : (
+        <div>Brak postów do wyświetlenia</div>
       )}
     </div>
   );

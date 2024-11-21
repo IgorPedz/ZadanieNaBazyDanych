@@ -1,0 +1,90 @@
+.profile-image-uploader {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .profile-image-uploader h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .profile-image-uploader input[type="file"] {
+    display: none;
+  }
+  
+  .profile-image-uploader label {
+    display: block;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .profile-image-uploader .image-preview {
+    margin-top: 20px;
+    position: relative;
+  }
+  
+  .profile-image-uploader img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+  }
+  
+  .profile-image-uploader button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .profile-image-uploader button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .profile-image-uploader button:hover:not(:disabled) {
+    background-color: #45a049;
+  }
+  
+  .profile-image-uploader p {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .profile-image-uploader .remove-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    display: none;
+  }
+  
+  .profile-image-uploader .image-preview:hover .remove-btn {
+    display: block;
+  }
+  
+  

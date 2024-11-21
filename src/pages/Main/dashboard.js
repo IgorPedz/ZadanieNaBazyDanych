@@ -14,6 +14,8 @@ import Profil from '../../Components/Profil/Profil';
 import SettingsModal from '../../Components/Settings/Settings'; 
 import Fan from  '../../Components/FriendsAndObservers/FriendsAndObservers'
 import Chat from '../../Components/Chat/Chat'
+import ProfIMG from '../../Components/FileDownload/FileDownload'
+import Cookies from 'js-cookie'
 
 const Dashboard = () => {
   const { user, logout } = useUser(); 
@@ -23,14 +25,17 @@ const Dashboard = () => {
   const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false); 
   const [currentChat, setCurrentChat] = useState(null); // Użytkownik, z którym prowadzimy czat
 
+  // Funkcja otwierająca czat
   const handleOpenChat = (friendUsername) => {
     setCurrentChat(friendUsername); // Otwieramy czat z wybranym znajomym
   };
 
+  // Funkcja zamykająca czat
   const handleCloseChat = () => {
     setCurrentChat(null); // Zamykamy czat
   };
 
+  // Funkcja obsługująca kliknięcie na hashtag
   const handleHashtagClick = (hashtag) => {
     setSelectedHashtag(hashtag); 
     console.log(hashtag);
@@ -38,10 +43,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/')
+      navigate('/'); // Przekierowanie, jeśli użytkownik nie jest zalogowany
+      console.log('Brak uzytkownika!');
     }
-  }, [user]);
 
+  }, [user, navigate]); // Zależy od 'user' i 'navigate'
+
+  // Funkcja do zarządzania przełączaniem tabów
   const handleAdditionalActions = (username) => {
     setActiveTab('profil'); 
     navigate(`/dashboard/${username}`);
@@ -54,18 +62,15 @@ const Dashboard = () => {
   const hideSettingsModal = () => {
     setIsSettingsModalVisible(false);
   };
+  let currentVisitCount = Cookies.get('visitCount');
 
   return (
     <div className="background">
       {user ? (
         <div className="dashboard-content">        
-          <div onClick={() => { handleAdditionalActions(user.username); }} className="user-info">
+          <div onClick={() => { handleAdditionalActions(user.nick); }} className="user-info">
             <h1>Witaj, {user.username}!</h1>
-            <img 
-              src={`https://i.pravatar.cc/150?img=12`} 
-              alt="User profile" 
-              className="profile-image"
-            />
+            <ProfIMG userId={user.id} />
           </div>
           <Fan handleAdditionalActions={handleOpenChat}/>
         </div>
@@ -89,7 +94,7 @@ const Dashboard = () => {
         </div>
         
         <div className="Main-content">
-          {activeTab === 'posts' ? <Posts handleAdditionalActions={handleAdditionalActions} onHashtagClick={handleHashtagClick} /> : activeTab === 'stories' ? <Stories /> : activeTab === 'profil' ? <Profil /> : null}
+          {activeTab === 'posts' ? <Posts handleAdditionalActions={handleAdditionalActions} onHashtagClick={handleHashtagClick} /> : activeTab === 'stories' ? <Stories /> : activeTab === 'profil' ? <Profil visit = {currentVisitCount}/> : null}
           <span className="hash">
             <Hashtags onHashtagClick={handleHashtagClick} />
           </span>

@@ -24,6 +24,10 @@
     margin-bottom: 10vh;
     margin-inline-end: 30rem;
   }
+  img
+  {
+    margin-right: 10px;
+  }
   @media (height<901px) or (width<1000px) {
     .site-title {
       margin-inline-end: 0;

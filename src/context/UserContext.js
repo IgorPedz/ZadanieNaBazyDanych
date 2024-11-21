@@ -24,6 +24,7 @@ export const UserProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem('user'); // Usuwa dane użytkownika z localStorage
   };
+  // Funkcja, która wysyła zapytanie do backendu PHP, aby uzyskać userID na podstawie e-maila
 
   return (
     <UserContext.Provider value={{ user, login, logout }}>

@@ -56,18 +56,21 @@
   font-size: 14px;
 }
 
-.publish-button,.edit-button,.del-button {
+.publish-button,.edt-button,.del-button {
   background-color: #1da1f2;
   color: white;
-  padding: 12px 18px;
+  width:120px;
   border: none;
+  padding: 9px;
+  margin-inline-end: 15px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
 }
 
-.publish-button:hover {
+.edt-button:hover,.del-button:hover,.publish-button:hover {
   background-color: #1991db;
   transform: scale(1.05); 
 }
@@ -98,9 +101,15 @@
 
 .post-info {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
-
+.post-info  .post-username,
+.post-info  .post-nickname
+{
+  cursor: pointer;
+}
 .post-username {
   font-weight: bold;
   color: #1da1f2;
@@ -112,7 +121,7 @@
   color:gray;
 }
 .post-title {
-  font-size: 16px;
+  font-size: 1.5rem;
   color: #b0b0b0;
 }
 
@@ -132,15 +141,22 @@
   justify-content: right;
   gap:10px;
 }
-.like-button {
+.post-footer
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.like-button,.comment-button {
+  color:snow;
   font-size: 24px;
   background: none;
   border: none;
   cursor: pointer;
   outline: none;
   transition: none; 
+  padding-inline:10px;
 }
-
 .like-button:hover {
   transform: none;
   color: inherit;
@@ -152,7 +168,7 @@
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .post-comments {
@@ -172,16 +188,6 @@
   color: #1da1f2;
 }
 
-.comment-button {
-  font-size: 14px;
-  padding: 8px 12px;
-  background-color: #388e3c;
-}
-
-.comment-button:hover {
-  background-color: #2e7d32;
-}
-
 .post-hashtags {
   display: flex;
   flex-direction: row; 
@@ -194,6 +200,7 @@
   color: #1da1f2;
   cursor: pointer;
   transition: color 0.3s ease;
+  display: inline-block;
 }
 
 .hashtag:hover {
