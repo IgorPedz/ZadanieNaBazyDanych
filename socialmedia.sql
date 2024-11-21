@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 20 Lis 2024, 13:07
+-- Czas generowania: 21 Lis 2024, 13:39
 -- Wersja serwera: 10.4.25-MariaDB
 -- Wersja PHP: 8.1.10
 
@@ -201,6 +201,19 @@ INSERT INTO `obserwujacy` (`ID_obserwowanego`, `ID_obserwujacego`, `Data_obserwa
 (17, 18, '2024-04-29 22:00:00'),
 (18, 19, '2024-04-30 22:00:00'),
 (19, 20, '2024-05-04 22:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -785,36 +798,39 @@ CREATE TABLE `uzytkownicy` (
   `Bio` text NOT NULL,
   `Kraj` varchar(80) NOT NULL,
   `Data_Urodzenia` date DEFAULT NULL,
-  `Link_Zdjecia` varchar(255) DEFAULT NULL
+  `Link_Zdjecia` varchar(255) DEFAULT NULL,
+  `resetToken` varchar(255) DEFAULT NULL,
+  `tokenExpiry` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `uzytkownicy`
 --
 
-INSERT INTO `uzytkownicy` (`ID_uzytkownika`, `Imie`, `Nazwisko`, `Nick`, `Email`, `Haslo`, `Bio`, `Kraj`, `Data_Urodzenia`, `Link_Zdjecia`) VALUES
-(1, 'Jan', 'Kowalski', 'jankowalski', 'jankowalski@example.com', 'haslo123', 'siema to ja ', '', '1990-05-10', 'https://randomuser.me/api/portraits/men/1.jpg'),
-(2, 'Anna', 'Nowak', 'annanowak', 'annanowak@example.com', 'haslo123', '', '', '1992-08-15', 'https://randomuser.me/api/portraits/women/1.jpg'),
-(3, 'Marek', 'Zalewski', 'marekzalewski', 'marekzalewski@example.com', 'haslo123', '', '', '1987-12-22', 'https://randomuser.me/api/portraits/men/2.jpg'),
-(4, 'Ewa', 'Wiśniewska', 'ewawisniewska', 'ewawisniewska@example.com', 'haslo123', 'siema to ja ', 'Polska', '1994-03-05', 'https://randomuser.me/api/portraits/women/2.jpg'),
-(5, 'Paweł', 'Wójcik', 'pawelwojcik', 'pawelwojcik@example.com', 'haslo123', 'siema to ja ', '', '1989-07-19', 'https://randomuser.me/api/portraits/men/3.jpg'),
-(6, 'Katarzyna', 'Kaczmarek', 'katarzynakaczmarek', 'katarzynakaczmarek@example.com', 'haslo123', '', '', '1991-11-30', 'https://randomuser.me/api/portraits/women/3.jpg'),
-(7, 'Piotr', 'Mazur', 'ziomo', 'piortrulo@poczta', 'haslo123', 'siema to ja ', 'Polska', '2028-02-20', 'https://randomuser.me/api/portraits/men/4.jpg'),
-(8, 'Agnieszka', 'Kowalska', 'aga', 'agnieszkakowalska@example.com', 'haslo123', 'ja na nartach', 'Polska', '1993-09-11', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ffotoplus.pl%2F&psig=AOvVaw02XXY_TWy7C0o9Ucr6lVhY&ust=1732190712575000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPC5xbLv6okDFQAAAAAdAAAAABAE'),
-(9, 'Tomasz', 'Pawlak', 'tomaszpawlak', 'tomaszpawlak@example.com', 'haslo123', '', '', '1986-10-03', 'https://randomuser.me/api/portraits/men/5.jpg'),
-(10, 'Magdalena', 'Szymańska', 'magdalenaszymanska', 'magdalenaszymanska@example.com', 'haslo123', '', '', '1995-06-25', 'https://randomuser.me/api/portraits/women/5.jpg'),
-(11, 'Jakub', 'Jankowski', 'jakubjankowski', 'jakubjankowski@example.com', 'haslo123', '', '', '1988-04-17', 'https://randomuser.me/api/portraits/men/6.jpg'),
-(12, 'Monika', 'Bąk', 'monikabak', 'monikabak@example.com', 'haslo123', '', '', '1990-01-20', 'https://randomuser.me/api/portraits/women/6.jpg'),
-(13, 'Andrzej', 'Lis', 'andrzejlis', 'andrzejlis@example.com', 'haslo123', '', '', '1992-09-09', 'https://randomuser.me/api/portraits/men/7.jpg'),
-(14, 'Joanna', 'Wójcik', 'joannawojcik', 'joannawojcik@example.com', 'haslo123', '', '', '1994-02-12', 'https://randomuser.me/api/portraits/women/7.jpg'),
-(15, 'Marcin', 'Jabłoński', 'marcinjablonski', 'marcinjablonski@example.com', 'haslo123', '', '', '1983-06-02', 'https://randomuser.me/api/portraits/men/8.jpg'),
-(16, 'Olga', 'Maciąg', 'olgamaciag', 'olgamaciag@example.com', 'haslo123', '', '', '1996-12-13', 'https://randomuser.me/api/portraits/women/8.jpg'),
-(17, 'Krzysztof', 'Kwiatkowski', 'krzysztofkwiatkowski', 'krzysztofkwiatkowski@example.com', 'haslo123', '', '', '1987-11-10', 'https://randomuser.me/api/portraits/men/9.jpg'),
-(18, 'Julia', 'Nowakowska', 'julianowakowska', 'julianowakowska@example.com', 'haslo123', '', '', '1991-04-08', 'https://randomuser.me/api/portraits/women/9.jpg'),
-(19, 'Szymon', 'Stolarz', 'szymonstolarz', 'szymonstolarz@example.com', 'haslo123', '', '', '1993-08-14', 'https://randomuser.me/api/portraits/men/10.jpg'),
-(20, 'Wiktoria', 'Krawczyk', 'wiktoriakrawczyk', 'wiktoriakrawczyk@example.com', 'haslo123', '', '', '1990-05-30', 'https://randomuser.me/api/portraits/women/10.jpg'),
-(21, 'test', 'test', 'test_test', 'test@wp.pl', '$2y$10$kLHXBJhEhTe/SmFGsa6hKeXRbyk5OxWOttjl27KixKT1U6MGeLyv6', '', '', NULL, NULL),
-(22, 'lemi', 'sjhfdaisp', 'lemi_sjhfdaisp', 'Lemi@pocztra', '$2y$10$bb2Uj6xv2cRmLa/eCMkZqeaQXM27N2xDOA4QhF1rQnZvFzw6cZegW', '', '', NULL, NULL);
+INSERT INTO `uzytkownicy` (`ID_uzytkownika`, `Imie`, `Nazwisko`, `Nick`, `Email`, `Haslo`, `Bio`, `Kraj`, `Data_Urodzenia`, `Link_Zdjecia`, `resetToken`, `tokenExpiry`) VALUES
+(1, 'Jan', 'Kowalski', 'jankowalski', 'jankowalski@example.com', 'haslo123', 'siema to ja ', '', '1990-05-10', 'https://randomuser.me/api/portraits/men/1.jpg', NULL, NULL),
+(2, 'Anna', 'Nowak', 'annanowak', 'annanowak@example.com', 'haslo123', '', '', '1992-08-15', 'https://randomuser.me/api/portraits/women/1.jpg', NULL, NULL),
+(3, 'Marek', 'Zalewski', 'marekzalewski', 'marekzalewski@example.com', 'haslo123', '', '', '1987-12-22', 'https://randomuser.me/api/portraits/men/2.jpg', NULL, NULL),
+(4, 'Ewa', 'Wiśniewska', 'ewawisniewska', 'ewawisniewska@example.com', 'haslo123', 'siema to ja ', 'Polska', '1994-03-05', 'https://randomuser.me/api/portraits/women/2.jpg', NULL, NULL),
+(5, 'Paweł', 'Wójcik', 'pawelwojcik', 'pawelwojcik@example.com', 'haslo123', 'siema to ja ', '', '1989-07-19', 'https://randomuser.me/api/portraits/men/3.jpg', NULL, NULL),
+(6, 'Katarzyna', 'Kaczmarek', 'katarzynakaczmarek', 'katarzynakaczmarek@example.com', 'haslo123', '', '', '1991-11-30', 'https://randomuser.me/api/portraits/women/3.jpg', NULL, NULL),
+(7, 'Piotr', 'Mazur', 'ziomo', 'piortrulo@poczta', 'haslo123', 'siema to ja ', 'Polska', '2028-02-20', 'https://randomuser.me/api/portraits/men/4.jpg', NULL, NULL),
+(8, 'Agnieszka', 'Kowalska', 'aga', 'agnieszkakowalska@example.com', 'haslo123', 'ja na nartach', 'Polska', '1993-09-11', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ffotoplus.pl%2F&psig=AOvVaw02XXY_TWy7C0o9Ucr6lVhY&ust=1732190712575000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPC5xbLv6okDFQAAAAAdAAAAABAE', NULL, NULL),
+(9, 'Tomasz', 'Pawlak', 'tomaszpawlak', 'tomaszpawlak@example.com', 'haslo123', '', '', '1986-10-03', 'https://randomuser.me/api/portraits/men/5.jpg', NULL, NULL),
+(10, 'Magdalena', 'Szymańska', 'magdalenaszymanska', 'magdalenaszymanska@example.com', 'haslo123', '', '', '1995-06-25', 'https://randomuser.me/api/portraits/women/5.jpg', NULL, NULL),
+(11, 'Jakub', 'Jankowski', 'jakubjankowski', 'jakubjankowski@example.com', 'haslo123', '', '', '1988-04-17', 'https://randomuser.me/api/portraits/men/6.jpg', NULL, NULL),
+(12, 'Monika', 'Bąk', 'monikabak', 'monikabak@example.com', 'haslo123', '', '', '1990-01-20', 'https://randomuser.me/api/portraits/women/6.jpg', NULL, NULL),
+(13, 'Andrzej', 'Lis', 'andrzejlis', 'andrzejlis@example.com', 'haslo123', '', '', '1992-09-09', 'https://randomuser.me/api/portraits/men/7.jpg', NULL, NULL),
+(14, 'Joanna', 'Wójcik', 'joannawojcik', 'joannawojcik@example.com', 'haslo123', '', '', '1994-02-12', 'https://randomuser.me/api/portraits/women/7.jpg', NULL, NULL),
+(15, 'Marcin', 'Jabłoński', 'marcinjablonski', 'marcinjablonski@example.com', 'haslo123', '', '', '1983-06-02', 'https://randomuser.me/api/portraits/men/8.jpg', NULL, NULL),
+(16, 'Olga', 'Maciąg', 'olgamaciag', 'olgamaciag@example.com', 'haslo123', '', '', '1996-12-13', 'https://randomuser.me/api/portraits/women/8.jpg', NULL, NULL),
+(17, 'Krzysztof', 'Kwiatkowski', 'krzysztofkwiatkowski', 'krzysztofkwiatkowski@example.com', 'haslo123', '', '', '1987-11-10', 'https://randomuser.me/api/portraits/men/9.jpg', NULL, NULL),
+(18, 'Julia', 'Nowakowska', 'julianowakowska', 'julianowakowska@example.com', 'haslo123', '', '', '1991-04-08', 'https://randomuser.me/api/portraits/women/9.jpg', NULL, NULL),
+(19, 'Szymon', 'Stolarz', 'szymonstolarz', 'szymonstolarz@example.com', 'haslo123', '', '', '1993-08-14', 'https://randomuser.me/api/portraits/men/10.jpg', NULL, NULL),
+(20, 'Wiktoria', 'Krawczyk', 'wiktoriakrawczyk', 'wiktoriakrawczyk@example.com', 'haslo123', '', '', '1990-05-30', 'https://randomuser.me/api/portraits/women/10.jpg', NULL, NULL),
+(21, 'test', 'test', 'test_test', 'test@wp.pl', '$2y$10$kLHXBJhEhTe/SmFGsa6hKeXRbyk5OxWOttjl27KixKT1U6MGeLyv6', '', '', NULL, NULL, NULL, NULL),
+(22, 'lemi', 'sjhfdaisp', 'lemi_sjhfdaisp', 'Lemi@pocztra', '$2y$10$bb2Uj6xv2cRmLa/eCMkZqeaQXM27N2xDOA4QhF1rQnZvFzw6cZegW', '', '', NULL, NULL, NULL, NULL),
+(23, 'testowy', 'test', 'testowy_test', 'lemi120@wp.pl', '$2y$10$idwD3bDRIeIpwI18uWqod.MpwQHFayVi8c2PN6D2KZhHv5srFAIb6', '', '', NULL, NULL, '36ef29179c695f9f3f8bdd9d18a2b9c2c43618c4844cac3d7ddfabe9ae313e1a', '2024-11-20 20:00:27');
 
 -- --------------------------------------------------------
 
@@ -1044,6 +1060,12 @@ ALTER TABLE `obserwujacy`
   ADD KEY `id_obserwowanego` (`ID_obserwowanego`);
 
 --
+-- Indeksy dla tabeli `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeksy dla tabeli `posty`
 --
 ALTER TABLE `posty`
@@ -1095,6 +1117,12 @@ ALTER TABLE `komentarze`
   MODIFY `ID_komentarza` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=539;
 
 --
+-- AUTO_INCREMENT dla tabeli `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
 -- AUTO_INCREMENT dla tabeli `posty`
 --
 ALTER TABLE `posty`
@@ -1110,7 +1138,7 @@ ALTER TABLE `rozmowy`
 -- AUTO_INCREMENT dla tabeli `uzytkownicy`
 --
 ALTER TABLE `uzytkownicy`
-  MODIFY `ID_uzytkownika` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `ID_uzytkownika` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT dla tabeli `wiadomosci`
