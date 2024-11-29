@@ -7,8 +7,8 @@ Aplikacja Socialmediowa na praktyki 3P
 - **Logowanie/Registracja**: mozliwośc zalogowania sie do strony za pomocą php
 - **Panel Administratora**: logowanie w prawym górnym rogu KOD ZABEZPIECZENIA - b1f8a6c9e2d5e04b7f9a - Możliwość przeglądania danych z różnych tabel w bazie danych./Wyświetlanie wyników z wcześniej zdefiniowanych widoków w bazie.                                
 - **Intuicyjny interfejs**: Przyjazny interfejs do wyświetlania wyników i interakcji z innymi.
-
-    i będzie wiele więcej
+- **Publikowanie postów/komentarzy/lajkowanie/edytowanie profilu/publikowanie i ogladanie storiesów**: umożliwia szeroką komunikację z innymi uzytkownikami
+- **Znajomi i obserwatorzy**: zwiekszenie relacji bezpośrednich                               
 
 ## Technologie
 

@@ -1,6 +1,8 @@
 <?php
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
+header("Access-Control-Allow-Headers: Content-Type");
 session_start();
-
 // Połączenie z bazą danych
 $host = "localhost";
 $username = "root";  // Twoja nazwa użytkownika bazy danych
@@ -45,17 +47,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
-<!-- Formularz logowania -->
-<form method="POST">
-    <label for="email">E-mail:</label><br>
-    <input type="email" name="email" required><br><br>
-
-    <label for="password">Hasło:</label><br>
-    <input type="password" name="password" required><br><br>
-
-    <button type="submit">Zaloguj się</button><br><br>
-
-    <!-- Przycisk do resetowania hasła -->
-    <a href="reset_password.php">Zapomniałeś hasła?</a>
-</form>

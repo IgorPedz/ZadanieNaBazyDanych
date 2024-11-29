@@ -43,8 +43,12 @@ if ($result->num_rows > 0) {
             SELECT 
                 c.Tresc AS comment_content,
                 c.Data_publikacji AS comment_date,
+                c.ID_komentarza as comment_id,
+                c.Ilosc_polubien as comment_like,
                 u.Imie AS comment_author_firstname,
-                u.Nazwisko AS comment_author_lastname
+                u.Nazwisko AS comment_author_lastname,
+                u.Nick AS comment_author_nickname,
+                u.Link_zdjecia as profil
             FROM komentarze c
             JOIN uzytkownicy u ON c.ID_uzytkownika = u.ID_uzytkownika
             WHERE c.ID_postu = " . $row['ID_postu'];
@@ -56,9 +60,13 @@ if ($result->num_rows > 0) {
         if ($commentsResult->num_rows > 0) {
             while ($commentRow = $commentsResult->fetch_assoc()) {
                 $comments[] = [
-                    'author' => $commentRow['comment_author_firstname'] . ' ' . $commentRow['comment_author_lastname'],  // Autor komentarza
+                    'id' => $commentRow['comment_id'],
+                    'like' => $commentRow['comment_like'],
+                    'auth' => $commentRow['comment_author_firstname'] . ' ' . $commentRow['comment_author_lastname'],  // Autor komentarza
                     'content' => $commentRow['comment_content'],  // Treść komentarza
-                    'publishedAt' => $commentRow['comment_date']  // Data dodania komentarza
+                    'comm_nick' => $commentRow['comment_author_nickname'],
+                    'publishedAt' => $commentRow['comment_date'],  // Data dodania komentarza
+                    'prof' => $commentRow['profil']
                 ];
             }
         }

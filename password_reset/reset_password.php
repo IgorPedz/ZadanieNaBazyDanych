@@ -24,27 +24,23 @@ try {
 // FUNKCJA WYSYŁANIA E-MAILA Z LINKIEM RESETUJĄCYM
 function sendResetEmail($email, $token) {
     // Tworzymy instancję PHPMailera
-    $mail = new PHPMailer(true);
+    $email = new PHPMailer(true);
     try {
-        // Konfiguracja SMTP dla Gmaila
+        $mail->SMTPDebug = 2;  // Włącz szczegółowy tryb debugowania
+        $mail->Debugoutput = 'html';  // Można zmienić na 'error_log', aby zapisywać do logów
+
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // Adres serwera SMTP Gmaila
+        $mail->Host = 'smtp.gmail.com'; 
         $mail->SMTPAuth = true;
         $mail->Username = 'fuse.help.center@gmail.com'; // Twój adres Gmail
-        $mail->Password = 'wwgh fyhw udvf jtfs'; // Twoje hasło aplikacji (zalecane) lub hasło konta
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Bezpieczne połączenie
-        $mail->Port = 587; // Port dla Gmaila
-    
-        // Dane nadawcy
-        $mail->setFrom('fuse.help.center@gmail.com', 'Fuse Community'); // Twój adres Gmail jako nadawca
-    
-        // Adres e-mail odbiorcy
-        $mail->addAddress($email); 
-    
-        // Treść e-maila
-        $mail->isHTML(true); 
+        $mail->Password = 'ncqk tipv lrtw toah'; // Twoje hasło aplikacji
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port =   465;
+        $mail->setFrom('fuse.help.center@gmail.com', 'Fuse Community'); 
+        $mail->addAddress($email);
+        $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
-        $mail->Subject = 'Resetowanie hasła'; 
+        $mail->Subject = 'Resetowanie hasła';
         $mail->Body = "
             Witaj,<br>
             Otrzymałeś ten e-mail, ponieważ poprosiłeś o zresetowanie hasła do swojego konta. <br>
@@ -54,7 +50,7 @@ function sendResetEmail($email, $token) {
             Jeśli nie rozpoczynałeś procesu resetowania hasła, zignoruj tę wiadomość.
         ";
     
-        // Wysłanie e-maila
+        sleep(2);  // Opóźnienie 2 sekundy
         $mail->send();
         echo "E-mail z linkiem resetującym został wysłany.";
     } catch (Exception $e) {
@@ -76,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['email'])) {
         $token = bin2hex(random_bytes(50)); 
         $stmt = $pdo->prepare("INSERT INTO password_resets (email, token) VALUES (:email, :token)");
         $stmt->execute(['email' => $email, 'token' => $token]);
-
+        
         // Wywołanie funkcji wysyłającej e-mail
         sendResetEmail($email, $token);
     } else {

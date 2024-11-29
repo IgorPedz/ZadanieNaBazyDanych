@@ -1,189 +1,130 @@
-.stories-container {
-  width: 100%;
-  max-width: 1500px;
-  margin: 0 auto;
-  position: relative;
-  margin-right: 30px;
-}
-
+/* Główna sekcja aplikacji */
 .story {
-  position: relative;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.story iframe,
-.story video {
-  width: 100%;
-  height: 400px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.story.inactive {
-  opacity: 0.4;
-  transform: scale(0.8);
-  filter: brightness(0.5); 
-}
-
-.story.active {
-  opacity: 1;
-  transform: scale(1); 
-  filter: brightness(1); 
-}
-
-.story-info {
-  position: absolute;
-  bottom: 10px;
-  left:40%;
-  right: 40%;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-.slick-center .story {
-  opacity: 1;
-  transform: scale(1);
-  filter: brightness(1);
-}
-
-.prev-button,
-.next-button {
-  position: absolute;
-  top: 40%;
-  transform: translateY(-50%);
-  width: 60px; 
-  height: 60px;
-  background-color: rgba(0, 0, 0, 0.5); 
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%; 
-  z-index: 10; 
-}
-
-.prev-button {
-  left: 10px;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"%3E%3Cpath d="M15 19l-7-7 7-7" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
-  background-repeat: no-repeat;
-  background-size: 24px 24px; 
-  background-position: center;
-}
-
-.next-button {
-  right: 10px;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"%3E%3Cpath d="M9 5l7 7-7 7" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
-  background-repeat: no-repeat;
-  background-size: 24px 24px; 
-  background-position: center;
-}
-
-.prev-button:hover,
-.next-button:hover {
-  background-color: rgba(0, 0, 0, 0.7); 
-}
-
-.prev-button:focus,
-.next-button:focus {
-  outline: none;
-}
-
-.publish-button {
-  background-color: #1d9bf0;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-
-.publish-button:hover {
-  background-color: #0d8bbf;
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
-.modal {
-  padding: 30px;
-  border-radius: 8px;
-  width: 400px;
   text-align: center;
+  padding: 20px;
+  background-color: #1a1a1a;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.modal h2 {
+/* Formularz do dodawania filmów */
+form {
   margin-bottom: 20px;
-  font-size: 24px;
 }
 
-.modal form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.modal input,
-.modal select {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.modal button {
-  padding: 10px;
-  font-size: 16px;
+button {
+  padding: 20px 30px;
+  background-color: #3498db;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.modal button[type="button"] {
-  background-color: #1d9bf0;
-  color: white;
-  margin-top: 10px;
+button:hover {
+  background-color: #2980b9;
 }
 
-.modal button[type="button"]:hover {
-  background-color: #0d8bbf;
-}
-
-.modal button[type="submit"] {
-  background-color: #5bc0de;
-  color: white;
-}
-
-.modal button[type="submit"]:hover {
-  background-color: #31b0d5;
-}
-
-.modal input,
-.modal select {
+/* Sekcja pełnoekranowego odtwarzania filmów */
+.video-container {
+  position: relative;
   width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-.modal button {
+video {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
-@media (width<768px)
+
+/* Galeria miniatur filmów */
+.video-gallery {
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative; /* Wymagane do pozycjonowania strzałek wewnątrz galerii */
+}
+
+/* Styl dla każdego elementu w galerii */
+.video-item {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.video-item:hover {
+  transform: scale(1.1);
+}
+
+.video-item.active {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.video-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Dodatkowy styl dla wideo aktywnego */
+.video-item.active video {
+  border: 2px solid #3498db;
+}
+
+/* Przycisk strzałki po lewej i prawej stronie galerii */
+.arrow-buttons {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  pointer-events: none; /* Pozwoli na klikanie tylko w strzałki */
+}
+
+.arrow-left, .arrow-right {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 24px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  pointer-events: all; /* Zezwala na klikanie w strzałki */
+}
+
+.arrow-left:hover, .arrow-right:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Strzałka po lewej stronie */
+.arrow-left {
+  left: 10px;
+}
+
+/* Strzałka po prawej stronie */
+.arrow-right {
+  right: 10px;
+}
+.upload-video-container
 {
-  .stories-container {
-    max-width: 800px;
-    overflow-x: hidden;
-  }
+  background-color: transparent;
+  padding: 1rem;
+}
+.video-input
+{
+  border: none;
 }

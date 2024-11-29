@@ -17,8 +17,8 @@
   
   /* Minimalizacja */
   .chat-container.minimized {
-    height: 50px; /* Minimalna wysokość czatu */
-    width: 200px; /* Węższa szerokość czatu w stanie zminimalizowanym */
+    height: 60px; /* Minimalna wysokość czatu */
+    width: 250px; /* Węższa szerokość czatu w stanie zminimalizowanym */
     overflow: hidden; /* Ukrywa zawartość */
   }
   
@@ -139,5 +139,26 @@
     100% {
       transform: translateY(0);
     }
+  }
+  ::-webkit-scrollbar {
+    width: 4px; /* szerokość poziomego lub pionowego paska przewijania */
+    height: 12px; /* wysokość poziomego paska przewijania */
+  }
+  
+  /* Stylizowanie tła paska przewijania */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* kolor tła paska przewijania */
+    border-radius: 10px;
+  }
+  
+  /* Stylizowanie suwaka */
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* kolor suwaka */
+    border-radius: 10px;
+  }
+  
+  /* Stylizowanie suwaka po najechaniu */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* ciemniejszy kolor suwaka po najechaniu */
   }
   

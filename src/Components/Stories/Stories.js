@@ -1,211 +1,189 @@
-import React, { useState, useRef } from "react";
-import Slider from "react-slick";
-import { useUser } from '../../context/UserContext'; 
-import "./Stories.css"; 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useState, useEffect, useRef } from "react";
+import "./Stories.css";
+import Modal from '../Modals/Modal';
+import { useUser } from '../../context/UserContext';
 
-const initialStoriesData = [
-  {
-    id: 1,
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-    user: "user1",
-    type: "youtube",
-  },
-  {
-    id: 2,
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-    user: "user2",
-    type: "youtube",
-  },
-  {
-    id: 3,
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-    user: "user3",
-    type: "youtube",
-  },
-  {
-    id: 4,
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    user: "user4",
-    type: "youtube",
-  },
-  {
-    id: 5,
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    user: "user5",
-    type: "youtube",
-  },
-];
+const Story = () => {
+  const [videos, setVideos] = useState([]);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [newVideo, setNewVideo] = useState(null); // State for the new video file
 
-const Stories = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState('');
+  const videoRef = useRef(null);
+  const videoContainerRef = useRef(null);
+
   const { user } = useUser();
-  const [activeSlide, setActiveSlide] = useState(0); 
-  const [storiesData, setStoriesData] = useState(initialStoriesData);
-  const [showModal, setShowModal] = useState(false); 
-  const [newStory, setNewStory] = useState({
-    videoUrl: "",
-    user: "",
-    type: "youtube", 
-  });
 
-  const sliderRef = useRef(null);
-
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    centerMode: true,
-    focusOnSelect: true, 
-    arrows: false,
-    dots: false,
-    beforeChange: (current, next) => {
-      stopVideo(current);
-    },
-    afterChange: (current) => {
-      setActiveSlide(current);
-    },
+  const closeModal = () => {
+    setShowModal(false);
   };
 
-  const stopVideo = (index) => {
-
-    const videoElement = document.getElementById(`video-${index}`);
-    if (videoElement) {
-      videoElement.pause();
-      videoElement.currentTime = 0; 
-    }
-
-    const iframeElement = document.getElementById(`youtube-${index}`);
-    if (iframeElement) {
-      const src = iframeElement.src;
-      iframeElement.src = ""; 
-      iframeElement.src = src; 
+  // Fetch videos from the server
+  const fetchVideos = async () => {
+    try {
+      const response = await fetch("http://localhost/getVideos.php");
+      const data = await response.json();
+      setVideos(data);
+    } catch (error) {
+      console.error("Error fetching videos", error);
     }
   };
 
-  const goToPrev = () => {
-    sliderRef.current.slickPrev();
+  // Handle the transition between videos (play the next one)
+  const goToNextVideo = () => {
+    const nextIndex = (currentVideoIndex + 1) % videos.length;
+    setCurrentVideoIndex(nextIndex);
   };
 
-  const goToNext = () => {
-    sliderRef.current.slickNext();
+  const goToPreviousVideo = () => {
+    const prevIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+    setCurrentVideoIndex(prevIndex);
   };
 
-  const handlePublish = () => {
-    const newId = storiesData.length + 1;
-    const newStoryData = { ...newStory, id: newId,user:user.username };
-    setStoriesData((prevStories) => [...prevStories, newStoryData]);
-    setShowModal(false); 
-    setNewStory({ videoUrl: ""}); 
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewStory({
-      ...newStory,
-      [name]: value,
+  const handleVideoPlay = (index) => {
+    setCurrentVideoIndex(index); // Update the current video index
+    const videoElements = videoContainerRef.current.querySelectorAll("video");
+    videoElements.forEach((video, idx) => {
+      if (idx === index) {
+        video.play().catch((error) => {
+          console.error("Error playing video:", error);
+        });
+      } else {
+        video.pause(); // Pause other videos
+      }
     });
   };
 
+  const handleFileChange = (e) => {
+    setNewVideo(e.target.files[0]);
+  };
+
+  const handleVideoUpload = async () => {
+    if (!newVideo) {
+      setError('Musisz wybrać filmik by móc go opublikować');
+      setShowModal(true);
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append("video", newVideo);
+    formData.append("userId", user.id);  // Dodanie userId do FormData
+  
+    try {
+      const response = await fetch("http://localhost/uploadVideos.php", {
+        method: "POST",
+        body: formData, // Tutaj wysyłamy formData, który zawiera video oraz userId
+      });
+      
+      const data = await response.json();
+      console.log(data);
+  
+      if (data.success) {
+        setError('Filmik opublikowany');
+        setShowModal(true);
+        fetchVideos(); // Re-fetch videos after upload
+      } else {
+        alert("Video upload failed.");
+      }
+    } catch (error) {
+      console.error("Error uploading video:", error);
+    }
+  };
+  
+
+  useEffect(() => {
+    fetchVideos();
+    const intervalId = setInterval(fetchVideos, 5000);
+
+    // Clear the interval when the component is unmounted to avoid memory leaks
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    if (videos.length > 0) {
+      const video = videoRef.current;
+      video.addEventListener("ended", goToNextVideo);
+      return () => {
+        video.removeEventListener("ended", goToNextVideo);
+      };
+    }
+  }, [videos, currentVideoIndex]);
+
   return (
-    <div className="stories-container">
-      <Slider ref={sliderRef} {...settings}>
-        {storiesData.map((story, index) => (
-          <div
-            key={story.id}
-            className={`story ${index === activeSlide ? "active" : "inactive"}`}
+    <div className="story">
+      <h1>Stories</h1>
+
+      {/* Full-screen video */}
+      <div className="video-container">
+        {videos.length > 0 && (
+          <video
+            ref={videoRef}
+            key={videos[currentVideoIndex].Link_filmu}
+            autoPlay
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: "opacity 1s ease-in-out",
+            }}
           >
-            {story.type === "youtube" ? (
-              <iframe
-                id={`youtube-${index}`} 
-                width="100%"
-                height="200"
-                src={
-                  index === activeSlide
-                    ? `${story.videoUrl}?autoplay=1&mute=0` 
-                    : `${story.videoUrl}?mute=1` 
-                }
-                title={`Story by ${story.user}`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <div>
-                {index === activeSlide ? (
-                  <video
-                    id={`video-${index}`} 
-                    width="100%"
-                    height="200"
-                    controls
-                    autoPlay
-                    muted={false} 
-                    loop
-                  >
-                    <source src={story.videoUrl} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ) : (
-                  <video
-                    id={`video-${index}`} 
-                    width="100%"
-                    height="200"
-                    controls
-                    muted={true} 
-                  >
-                    <source src={story.videoUrl} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
-              </div>
-            )}
-            <div className="story-info">
-              <span>{story.user}</span>
-            </div>
-          </div>
-        ))}
-      </Slider>
+            <source
+              src={`http://localhost/${videos[currentVideoIndex].Link_filmu}`}
+              type="video/mp4"
+            />
+            Your browser does not support the video element.
+          </video>
+        )}
+      </div>
 
-      <button className="prev-button" onClick={goToPrev}>
-        &larr;
-      </button>
-
-      <button className="next-button" onClick={goToNext}>
-        &rarr;
-      </button>
-
-      <button className="publish-button" onClick={() => setShowModal(true)}>
-        Publikuj story
-      </button>
-
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Dodaj nowe story</h2>
-            <form>
-              <label>
-                URL wideo:
-                <input
-                  type="text"
-                  name="videoUrl"
-                  value={newStory.videoUrl}
-                  onChange={handleChange}
-                  placeholder="Wprowadź URL wideo"
-                />
-              </label>
-              <button type="button" onClick={handlePublish}>
-                Publikuj
-              </button>
-              <button type="button" onClick={() => setShowModal(false)}>
-                Anuluj
-              </button>
-            </form>
-          </div>
+      {/* Navigation arrows */}
+      {videos.length > 1 && (
+        <div className="arrow-buttons">
+          <button className="arrow-left" onClick={goToPreviousVideo}>
+            ←
+          </button>
+          <button className="arrow-right" onClick={goToNextVideo}>
+            →
+          </button>
         </div>
       )}
+
+      {/* Thumbnail gallery */}
+      <div className="video-gallery" ref={videoContainerRef}>
+        {videos.map((video, index) => (
+          <div
+            key={index}
+            className={`video-item ${index === currentVideoIndex ? "active" : ""}`}
+            onClick={() => handleVideoPlay(index)} // Play video when clicked
+          >
+            <span>Autor: {video.Imie} {video.Nazwisko}</span>
+            <video>
+              <source
+                src={`http://localhost/${video.Link_filmu}`}
+                type="video/mp4"
+              />
+              Your browser does not support the video element.
+            </video>
+          </div>
+        ))}
+      </div>
+      <div className="upload-video-container">
+        <h1>Opublikuj nową storkę</h1>
+        <input
+          type="file"
+          accept="video/mp4"
+          className="video-input"
+          onChange={handleFileChange}
+        />
+        <button onClick={handleVideoUpload}>Opublikuj</button>
+      </div>
+      
+      {showModal && <Modal message={error} closeModal={closeModal} />}
+      {/* Video upload form */}
     </div>
+    
   );
 };
 
-export default Stories;
+export default Story;

@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $surrname = $data['surrname'];
             $nickname = $username .'_'.$surrname;
             $confirmPassword = $data['confirmPassword'];
+            $birth = $data['country'];
+            $date = $data['dob'];
 
             // Sprawdzamy, czy hasła się zgadzają
             if ($password !== $confirmPassword) {
@@ -52,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // Wstawianie użytkownika
-            $insertQuery = "INSERT INTO uzytkownicy (imie, nazwisko, nick ,email, haslo) VALUES (?, ?, ?, ?, ?)";
+            $insertQuery = "INSERT INTO uzytkownicy (imie, nazwisko, nick ,email, haslo, Data_Urodzenia, Kraj) VALUES (?, ?, ?, ?, ?, ?,?)";
             $stmt = $conn->prepare($insertQuery);
-            $stmt->bind_param("sssss", $username, $surrname, $nickname, $email, $hashedPassword);
+            $stmt->bind_param("sssssss", $username, $surrname, $nickname, $email, $hashedPassword, $date,$birth);
 
             if ($stmt->execute()) {
                 echo json_encode(['success' => true, 'message' => 'Użytkownik został zarejestrowany.']);

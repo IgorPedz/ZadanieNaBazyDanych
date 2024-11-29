@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.css';
 import logo_male from '../../assets/Pictures/logo-error.png';
-import Searchbar from '../Searchbar/searchbar';
+import  '../Searchbar/searchbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCameraRetro,faCommentDots, faBars } from '@fortawesome/free-solid-svg-icons';
 import Hashtags from '../Hashtags/hashtags'
 import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({ onTabChange,selectedHashtag,onHashtagClick }) => {
+const Navbar = ({ onTabChange,onHashtagClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +45,6 @@ const Navbar = ({ onTabChange,selectedHashtag,onHashtagClick }) => {
         <Link to="/" className="navbar-logo">
           <img src={logo_male} alt="Logo" className="logo-img" />
         </Link>
-        <Searchbar selectedHashtag={selectedHashtag} />
       </div>
 
       {isMobile && (

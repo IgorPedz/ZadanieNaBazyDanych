@@ -23,11 +23,14 @@ const Dashboard = () => {
   const navigate = useNavigate(); 
   const [selectedHashtag, setSelectedHashtag] = useState('');
   const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false); 
-  const [currentChat, setCurrentChat] = useState(null); // Użytkownik, z którym prowadzimy czat
+  const [currentChat, setCurrentChat] = useState(false);
 
   // Funkcja otwierająca czat
-  const handleOpenChat = (friendUsername) => {
-    setCurrentChat(friendUsername); // Otwieramy czat z wybranym znajomym
+  const handleOpenChat = (friendUsername,friendID) => {
+    setCurrentChat({
+      friendUsername: friendUsername,
+      friendID: friendID
+    });
   };
 
   // Funkcja zamykająca czat
@@ -46,7 +49,7 @@ const Dashboard = () => {
       navigate('/'); // Przekierowanie, jeśli użytkownik nie jest zalogowany
       console.log('Brak uzytkownika!');
     }
-
+    
   }, [user, navigate]); // Zależy od 'user' i 'navigate'
 
   // Funkcja do zarządzania przełączaniem tabów
@@ -62,7 +65,6 @@ const Dashboard = () => {
   const hideSettingsModal = () => {
     setIsSettingsModalVisible(false);
   };
-  let currentVisitCount = Cookies.get('visitCount');
 
   return (
     <div className="background">
@@ -72,7 +74,7 @@ const Dashboard = () => {
             <h1>Witaj, {user.username}!</h1>
             <ProfIMG userId={user.id} />
           </div>
-          <Fan handleAdditionalActions={handleOpenChat}/>
+          <Fan userId={user.id} Profil={handleAdditionalActions} Chat={handleOpenChat}/>
         </div>
       ) : (
         <div className="login-prompt">
@@ -88,17 +90,15 @@ const Dashboard = () => {
         <div className="dashboard-navbar">
           <Navbar 
             onTabChange={setActiveTab}
-            selectedHashtag={selectedHashtag}
-            onHashtagClick={handleHashtagClick}
           />
         </div>
         
         <div className="Main-content">
-          {activeTab === 'posts' ? <Posts handleAdditionalActions={handleAdditionalActions} onHashtagClick={handleHashtagClick} /> : activeTab === 'stories' ? <Stories /> : activeTab === 'profil' ? <Profil visit = {currentVisitCount}/> : null}
+          {activeTab === 'posts' ? <Posts selectedHashtag={selectedHashtag} handleAdditionalActions={handleAdditionalActions} onHashtagClick={handleHashtagClick} /> : activeTab === 'stories' ? <Stories /> : activeTab === 'profil' ? <Profil visit = {Cookies.get(`visitCount_user_${user.id}`)}/> : null}
           <span className="hash">
             <Hashtags onHashtagClick={handleHashtagClick} />
           </span>
-          {currentChat && <Chat friendUsername={currentChat} onClose={handleCloseChat} />}
+          {currentChat && user && <Chat currentName = {user.username} currentUserId={user.id} friendUserId={currentChat.friendID} friendUsername={currentChat.friendUsername} onClose={handleCloseChat} />}
         </div>
       </div>
 

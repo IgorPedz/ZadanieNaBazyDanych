@@ -59,6 +59,7 @@
 .list-section li {
   padding: 8px;
   border-bottom: 1px solid #ddd;
+  cursor: pointer;
 }
 .message-btn
 {
@@ -72,6 +73,20 @@
   margin: 10px 0 10px 0;
 }
 .message-btn:hover
+{
+  background-color:#1991DB;
+}
+.friend-btn
+{
+  padding: 0.5rem;
+  margin-inline: 0.4rem;
+  border:none;
+  color:snow;
+  cursor: pointer;
+  background-color:#1da1f2;
+  border-radius: 10px;
+}
+.yex:hover,.no:hover
 {
   background-color:#1991DB;
 }

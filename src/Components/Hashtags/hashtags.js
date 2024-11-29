@@ -25,6 +25,11 @@ const TopHashtags = ({ onHashtagClick }) => {
     };
 
     fetchHashtags();
+    const intervalId = setInterval(fetchHashtags, 5000);
+
+    // Clear the interval when the component is unmounted to avoid memory leaks
+    return () => clearInterval(intervalId);
+
   }, []);
 
   if (loading) {

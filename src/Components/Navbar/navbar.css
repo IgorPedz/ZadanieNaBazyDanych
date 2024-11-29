@@ -78,7 +78,10 @@
     padding: 10px;
     z-index: 1000;
   }
-
+  .navbar .list-options .Icon-option:hover
+  {
+    transform: translateX(10px);
+  }
   .Icon-option {
     margin-bottom: 10px;
     font-size: 1rem;

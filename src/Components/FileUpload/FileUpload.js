@@ -1,85 +1,57 @@
 import React, { useState } from 'react';
-import { useUser } from '../../context/UserContext'
-import './FileUpload.css'; // Dodajemy import do pliku CSS
-
-const ProfileImageUploader = () => {
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [message, setMessage] = useState('');
-  const { user, logout } = useUser(); 
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(file);
-      setPreview(imageUrl);
-    }
+import './FileUpload.css'
+const FileUpload = ({ userId }) => {  // Assuming userId is passed as a prop
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  console.log(userId)
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setError(null);  // Reset error state if a new file is selected
   };
 
-  const handleRemoveImage = () => {
-    setImage(null);
-    setPreview(null);
-  };
-
-  const handleSubmit = async () => {
-    if (!image) {
-      alert('Proszę wybrać zdjęcie!');
+  const handleUpload = () => {
+    if (!file) {
+      setError("Najpierw wybierz plik!");
       return;
     }
 
     const formData = new FormData();
-    formData.append('image', image);
-    
-    try {
-      setUploading(true);
-      setMessage('Trwa ładowanie...');
+    formData.append('file', file);
+    formData.append('user_id', userId);  // Pass user ID along with the file
 
-      const response = await fetch(`http://localhost/file.php?id=${user.id}}`, {
-        method: 'POST',
-        body: formData,
+    fetch('http://localhost/prof.php', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 'success') {
+          setSuccess("Profilowe pomyślnie zmienione!");
+        } else {
+          setError(data.message || 'Wystąpił błąd :(');
+        }
+      })
+      .catch((err) => {
+        setError('Wystąpił błąd :(');
+        console.error('Wystąpił błąd :(:', err);
       });
-      console.log(response)
-      const result = await response.json();
-      setUploading(false);
-
-      if (response.ok) {
-        setMessage('Zdjęcie zostało pomyślnie zapisane!');
-      } else {
-        setMessage(result.message || 'Wystąpił błąd podczas przesyłania.');
-      }
-    } catch (error) {
-      setUploading(false);
-      setMessage('Wystąpił błąd, spróbuj ponownie.');
-    }
   };
 
   return (
-    <div className="profile-image-uploader">
-      <h2>Załaduj zdjęcie profilowe</h2>
+<div className="upload-container">
+      <h3 className="upload-heading">Zmień profilowe</h3>
+      <input 
+        type="file" 
+        onChange={handleFileChange} 
+        className="file-input" 
+      />
+      <button onClick={handleUpload} className="upload-button">Zmień</button>
 
-      {preview ? (
-        <div className="image-preview">
-          <img src={preview} alt="Podgląd zdjęcia profilowego" />
-          <button className="remove-btn" onClick={handleRemoveImage}>×</button>
-        </div>
-      ) : (
-        <div>
-          <input type="file" id="imageInput" accept="image/*" onChange={handleImageChange} />
-          <label htmlFor="imageInput">Wybierz zdjęcie</label>
-        </div>
-      )}
-
-      <div>
-        <button onClick={handleSubmit} disabled={!image || uploading}>
-          {uploading ? 'Ładowanie...' : 'Zapisz zdjęcie'}
-        </button>
-      </div>
-
-      {message && <p>{message}</p>}
+      {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
     </div>
   );
 };
 
-export default ProfileImageUploader;
+export default FileUpload;

@@ -1,32 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import './Chat.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faExpand} from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faExpand } from '@fortawesome/free-solid-svg-icons';
 
-const Chat = ({ friendUsername, onClose }) => {
+const Chat = ({ currentName, currentUserId, friendUserId, friendUsername, onClose }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [isMinimized, setIsMinimized] = useState(false); // Nowy stan dla minimalizacji
-  
-  // Użytkownik aktualnie zalogowany (symulowane dane)
-  const currentUser = 'Ty';
+  const [isMinimized, setIsMinimized] = useState(false);
 
+  // Fetch messages between the logged-in user and the friend
   useEffect(() => {
-    // Symulujemy załadowanie wiadomości
-    const fetchMessages = () => {
-      setMessages([
-        { sender: 'Jan Kowalski', text: 'Cześć, jak się masz?' },
-        { sender: 'Ty', text: 'Dobrze, a Ty?' },
-      ]);
+    const fetchMessages = async () => {
+      const response = await fetch(
+        `http://localhost/Chat.php?senderId=${currentUserId}&receiverId=${friendUserId}`
+      );
+      const data = await response.json();
+      setMessages(data);
     };
 
     fetchMessages();
-  }, [friendUsername]);
+    const intervalId = setInterval(fetchMessages, 5000);
 
-  const handleSendMessage = () => {
-    if (newMessage) {
-      setMessages([...messages, { sender: currentUser, text: newMessage }]);
-      setNewMessage('');
+    // Clear the interval when the component is unmounted to avoid memory leaks
+    return () => clearInterval(intervalId);
+  }, [currentUserId, friendUserId]);
+  // Send a new message to the server
+  const handleSendMessage = async () => {
+    if (newMessage.trim()) {
+      const response = await fetch('http://localhost/Wyslij.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          senderId: currentUserId,
+          receiverId: friendUserId,
+          text: newMessage,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        // Update messages with the new one
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { sender_username: 'Ty', text: newMessage },
+        ]);
+        setNewMessage('');
+      } else {
+        console.error('Error sending message:', data.error);
+      }
     }
   };
 
@@ -40,7 +64,7 @@ const Chat = ({ friendUsername, onClose }) => {
         <h3>Rozmowa z {friendUsername}</h3>
         <div className="chat-header-buttons">
           <button onClick={toggleMinimize} className="minimize-chat">
-          <FontAwesomeIcon icon={isMinimized ? faExpand : faMinus} size="lg" />
+            <FontAwesomeIcon icon={isMinimized ? faExpand : faMinus} size="lg" />
           </button>
           <button onClick={onClose} className="close-chat">X</button>
         </div>
@@ -51,9 +75,9 @@ const Chat = ({ friendUsername, onClose }) => {
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`message ${message.sender === currentUser ? 'sent' : 'received'}`}
+              className={`message ${message.sender_username === currentName ? 'sent' : 'received'}`}
             >
-              <strong>{message.sender}: </strong> {message.text}
+              <strong>{message.sender_username}: </strong> {message.Tresc}
             </div>
           ))}
         </div>
@@ -61,8 +85,8 @@ const Chat = ({ friendUsername, onClose }) => {
 
       {!isMinimized && (
         <div className="chat-input">
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Napisz wiadomość..."
