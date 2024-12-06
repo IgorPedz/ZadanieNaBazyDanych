@@ -1,6 +1,7 @@
 # Fuse
 
-Aplikacja Socialmediowa na praktyki 3P
+Aplikacja Socialmediowa:
+- Igor Pędziwilk
 
 ## Funkcjonalności
 
