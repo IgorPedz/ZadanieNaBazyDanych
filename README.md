@@ -10,6 +10,7 @@ Aplikacja Socialmediowa na praktyki 3P
 - **Publikowanie postów/komentarzy/lajkowanie/edytowanie profilu/publikowanie i ogladanie storiesów**: umożliwia szeroką komunikację z innymi uzytkownikami
 - **Znajomi i obserwatorzy**: zwiekszenie relacji bezpośrednich                               
 
+Aplikacja jest przeznaczona dla użytkowników młodych, lubiących aplikacje socialmediowe
 ## Technologie
 
    **REACTJS**
