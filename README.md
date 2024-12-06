@@ -26,7 +26,7 @@ Aplikacja jest przeznaczona dla użytkowników młodych, lubiących aplikacje so
 1. Klon Repozytorium
 
 ```bash
-   git clone https://github.com/IgorPedz/ZadanieNaPraktykiSzkolne.git
+   git clone https://github.com/IgorPedz/ZadanieNaBazyDanych.git
 
    cd TwojeRepozytorium
 ```
