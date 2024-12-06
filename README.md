@@ -2,6 +2,8 @@
 
 Aplikacja Socialmediowa:
 - Igor Pędziwilk
+- Leon Tomys
+- Mateusz Szczepaniak
 
 ## Funkcjonalności
 
